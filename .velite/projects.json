@@ -1,1 +1,41 @@
-[]
+[
+  {
+    "title": "Mini DBMS",
+    "summary": "A from-scratch storage engine: slotted pages, a B+ tree index, and write-ahead logging.",
+    "status": "in-progress",
+    "tags": [
+      "C",
+      "storage engine",
+      "database"
+    ],
+    "seriesId": "S-01",
+    "githubUrl": "https://github.com/usmann-01/mini-dbms",
+    "startDate": "2026-05-01T00:00:00.000Z",
+    "highlights": [
+      "Slotted page format that packs variable-length records without wasted space",
+      "B+ tree index with correct leaf vs internal node split rules",
+      "Write-ahead log so an interrupted write never corrupts a page"
+    ],
+    "slug": "mini-dbms",
+    "content": "## The problem\n\nI wanted to understand how a database actually puts bytes on disk and finds them\nagain — not at the SQL layer, but underneath it, at the page and index level.\n\n## The approach\n\nI started at the storage layer: a fixed-size page is the unit of I/O, and a slotted\ndirectory inside each page tracks where every record lives. On top of that sits a B+\ntree for ordered lookups, and a write-ahead log for durability.\n\n## Where it stands\n\nThe storage engine and B+ tree inserts work; the WAL and crash recovery are in\nprogress. The build logs live in the **Building a Mini DBMS** blog series."
+  },
+  {
+    "title": "RAFT + Key-Value Store",
+    "summary": "A replicated key-value store built on a hand-rolled Raft consensus implementation.",
+    "status": "planned",
+    "tags": [
+      "Go",
+      "consensus",
+      "distributed systems"
+    ],
+    "seriesId": "S-03",
+    "startDate": "2026-08-01T00:00:00.000Z",
+    "highlights": [
+      "Leader election and log replication implemented from the Raft paper",
+      "A linearizable key-value store layered on top of the replicated log",
+      "Fault-injection tests that kill and partition nodes mid-write"
+    ],
+    "slug": "raft-kv",
+    "content": "## The problem\n\nDistributed consensus is the part of systems work I understand least by reading and\nmost by building. Raft is designed to be understandable, which makes it the right\nplace to start.\n\n## The approach\n\nThe plan is to implement Raft in stages — leader election first, then log\nreplication, then snapshotting — and only then layer a key-value store on top so the\nconsensus core stays testable in isolation.\n\n## Where it stands\n\nPlanned. Design notes and the build series will land before the first commit."
+  }
+]

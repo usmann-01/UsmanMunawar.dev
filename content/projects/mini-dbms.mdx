@@ -1,0 +1,29 @@
+---
+title: "Mini DBMS"
+summary: "A from-scratch storage engine: slotted pages, a B+ tree index, and write-ahead logging."
+status: "in-progress"
+tags: ["C", "storage engine", "database"]
+seriesId: "S-01"
+githubUrl: "https://github.com/usmann-01/mini-dbms"
+startDate: "2026-05-01"
+highlights:
+  - "Slotted page format that packs variable-length records without wasted space"
+  - "B+ tree index with correct leaf vs internal node split rules"
+  - "Write-ahead log so an interrupted write never corrupts a page"
+---
+
+## The problem
+
+I wanted to understand how a database actually puts bytes on disk and finds them
+again — not at the SQL layer, but underneath it, at the page and index level.
+
+## The approach
+
+I started at the storage layer: a fixed-size page is the unit of I/O, and a slotted
+directory inside each page tracks where every record lives. On top of that sits a B+
+tree for ordered lookups, and a write-ahead log for durability.
+
+## Where it stands
+
+The storage engine and B+ tree inserts work; the WAL and crash recovery are in
+progress. The build logs live in the **Building a Mini DBMS** blog series.

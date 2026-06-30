@@ -13,10 +13,13 @@ const posts = defineCollection({
       summary: s.string().max(200),
       draft: s.boolean().default(true),
       slug: s.path(),
-      content: s.mdx()
+      // Raw MDX source — compiled at render time by next-mdx-remote/rsc.
+      content: s.raw()
     })
     .transform((data) => ({
       ...data,
+      // s.path() yields "posts/<name>"; the route is a single [slug] segment.
+      slug: data.slug.replace(/^posts\//, ''),
       readingTime: Math.ceil(data.content.split(/\s+/).length / 200)
     }))
 })
@@ -36,8 +39,14 @@ const projects = defineCollection({
       endDate: s.isodate().optional(),
       highlights: s.array(s.string()),
       slug: s.path(),
-      content: s.mdx()
+      // Raw MDX source — compiled at render time by next-mdx-remote/rsc.
+      content: s.raw()
     })
+    .transform((data) => ({
+      ...data,
+      // s.path() yields "projects/<name>"; the route is a single [slug] segment.
+      slug: data.slug.replace(/^projects\//, '')
+    }))
 })
 
 export default defineConfig({

@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "title": "Designing the storage layer for a mini DBMS",
+    "date": "2026-06-15T00:00:00.000Z",
+    "series": "S-01",
+    "part": 1,
+    "tags": [
+      "storage",
+      "database"
+    ],
+    "summary": "Why I chose a slotted page format over fixed-size records, and what a page actually holds.",
+    "draft": false,
+    "slug": "s01-dbms-01-storage-design",
+    "content": "This is the first build log in the **Mini DBMS** series. Before a database can do\nanything interesting, it needs a way to put bytes on disk and find them again.\n\n## The page is the unit of I/O\n\nEverything starts with the *page* — a fixed-size block (4KB here) that the storage\nengine reads and writes as a single unit. Records live inside pages.\n\nA slotted page keeps a small directory of `(offset, length)` slots at the front and\ngrows the data from the back:\n\n```c\ntypedef struct {\n  uint16_t slot_count;\n  uint16_t free_offset;\n  Slot     slots[]; // grows forward; record bytes grow backward\n} PageHeader;\n```\n\n> The wrong turn I took first: fixed-size records. They're simpler, but they waste\n> space the moment your rows vary in length — which is always.\n\n## What's next\n\nIn the next post I work through inserting into a B+ tree and the split that I got\nwrong twice.",
+    "readingTime": 1
+  },
+  {
+    "title": "The B+ tree split I got wrong twice",
+    "date": "2026-06-22T00:00:00.000Z",
+    "series": "S-01",
+    "part": 2,
+    "tags": [
+      "b-tree",
+      "database"
+    ],
+    "summary": "A build log on node splitting: the off-by-one in the median pick that cost me an afternoon.",
+    "draft": false,
+    "slug": "s01-dbms-02-btree-insert",
+    "content": "Inserting into a B+ tree is easy until a node fills up. Then you *split*, and the\nsplit is where I lost an afternoon.\n\n## The median pick\n\nWhen a leaf overflows you push the median key up to the parent. My bug: I copied the\nmedian into the right node **and** left it in the left node.\n\n```python\nmid = len(keys) // 2\nleft, right = keys[:mid], keys[mid:]  # median stays in `right`, promoted by copy\n```\n\nThe fix was deciding, once, whether the median lives in the right node (leaf split)\nor moves up entirely (internal split). Those are different rules and conflating them\nis the classic mistake.\n\n## Takeaways\n\n- Leaf split: median is *copied* up, stays in the right leaf.\n- Internal split: median *moves* up, lives in neither child.",
+    "readingTime": 1
+  }
+]

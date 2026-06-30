@@ -1,0 +1,194 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ------------------------------------------------------------------ *
+ * Design tokens — Section 8 of the design blueprint.
+ * Do not invent colors. Every value below is from the spec.
+ * ------------------------------------------------------------------ */
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Radii (Section 8 — Spacing & Radii) */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+:root {
+  /* Surfaces — each token is a distinct elevation step */
+  --color-bg: #1a1b1e;
+  --color-bg-elevated: #202225;
+  --color-bg-subtle: #26282c;
+  --color-bg-hover: #2e3035;
+  --color-border: #2f3136;
+
+  /* Text */
+  --color-text-primary: #dcddde;
+  --color-text-secondary: #a3a6aa;
+  --color-text-muted: #9296a0;
+  /* --color-text-muted fails WCAG AA (4.46:1) against --color-bg-hover, the
+     background non-interactive tag/status pills sit on. This variant clears
+     4.5:1 (5.11:1) for that one pairing — use only where text sits on
+     --color-bg-hover; everywhere else, --color-text-muted is correct. */
+  --color-text-on-hover: #9da1ab;
+
+  /* Accent & semantic */
+  --color-accent: #7c9eff;
+  --color-accent-muted: #3b3f8c;
+  --color-focus-ring: rgba(124, 158, 255, 0.5);
+  --color-selection: rgba(124, 158, 255, 0.3);
+  --color-success: #3ba55d;
+  --color-in-progress: #faa61a;
+  --color-danger: #ed4245;
+
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+  --space-xl: 64px;
+
+  /* Prose */
+  --prose-max-width: 68ch;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-selection);
+  }
+
+  /* Focus state: 2px ring, 2px offset, on every interactive element (Section 8). */
+  :focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Prose — the blog is the product (Section 8 — Prose).
+ * Maps @tailwindcss/typography variables onto our tokens.
+ * ------------------------------------------------------------------ */
+
+.prose {
+  max-width: var(--prose-max-width);
+
+  --tw-prose-body: var(--color-text-primary);
+  --tw-prose-headings: var(--color-text-primary);
+  --tw-prose-lead: var(--color-text-secondary);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-text-primary);
+  --tw-prose-counters: var(--color-text-muted);
+  --tw-prose-bullets: var(--color-text-muted);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-text-secondary);
+  --tw-prose-quote-borders: var(--color-accent-muted);
+  --tw-prose-captions: var(--color-text-secondary);
+  --tw-prose-code: var(--color-text-primary);
+  --tw-prose-pre-code: var(--color-text-primary);
+  --tw-prose-pre-bg: var(--color-bg-elevated);
+  --tw-prose-th-borders: var(--color-border);
+  --tw-prose-td-borders: var(--color-border);
+}
+
+/* Inline links: no underline by default, underline on hover only. */
+.prose a {
+  text-decoration: none;
+}
+.prose a:hover {
+  text-decoration: underline;
+}
+
+/* Blockquote: 3px left bar in accent-muted, no background fill. */
+.prose blockquote {
+  border-left-width: 3px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* Inline code: bg-subtle well, radius-sm. Drop the default backtick quotes. */
+.prose :not(pre) > code {
+  background-color: var(--color-bg-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.3em;
+  font-weight: 400;
+  font-size: 0.875em;
+}
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+/* Horizontal rule: 1px border, 3em vertical margin, no decoration. */
+.prose hr {
+  margin-block: 3em;
+}
+
+/* ------------------------------------------------------------------ *
+ * Code blocks (rehype-pretty-code) — an Obsidian-style "well".
+ * keepBackground:false is set in the plugin config so this bg wins.
+ * ------------------------------------------------------------------ */
+
+.prose figure[data-rehype-pretty-code-figure] pre {
+  position: relative;
+  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-md);
+  padding: 2.25rem 1rem 1rem;
+  overflow-x: auto;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+/* Language label, top-right, mono, in secondary text. */
+.prose figure[data-rehype-pretty-code-figure] pre[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text-secondary);
+}
+
+.prose figure[data-rehype-pretty-code-figure] pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  counter-reset: line;
+}
+
+.prose figure[data-rehype-pretty-code-figure] [data-line] {
+  display: block;
+}
+
+/* github-dark's comment token (#6A737D) fails WCAG AA (3.31:1) against our
+   --color-bg-elevated code-block surface. Override to #8B949E (5.18:1) —
+   closest in-hue color that clears 4.5:1 — rather than swapping the whole
+   theme. Targets the inline style Shiki emits for this one token color. */
+.prose figure[data-rehype-pretty-code-figure] pre code span[style*="#6A737D" i] {
+  color: #8b949e !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * Motion — reduced motion (Section 8 — Motion).
+ * ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

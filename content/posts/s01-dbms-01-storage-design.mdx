@@ -1,0 +1,36 @@
+---
+title: "Designing the storage layer for a mini DBMS"
+date: "2026-06-15"
+series: "S-01"
+part: 1
+tags: ["storage", "database"]
+summary: "Why I chose a slotted page format over fixed-size records, and what a page actually holds."
+draft: false
+---
+
+This is the first build log in the **Mini DBMS** series. Before a database can do
+anything interesting, it needs a way to put bytes on disk and find them again.
+
+## The page is the unit of I/O
+
+Everything starts with the *page* — a fixed-size block (4KB here) that the storage
+engine reads and writes as a single unit. Records live inside pages.
+
+A slotted page keeps a small directory of `(offset, length)` slots at the front and
+grows the data from the back:
+
+```c
+typedef struct {
+  uint16_t slot_count;
+  uint16_t free_offset;
+  Slot     slots[]; // grows forward; record bytes grow backward
+} PageHeader;
+```
+
+> The wrong turn I took first: fixed-size records. They're simpler, but they waste
+> space the moment your rows vary in length — which is always.
+
+## What's next
+
+In the next post I work through inserting into a B+ tree and the split that I got
+wrong twice.
