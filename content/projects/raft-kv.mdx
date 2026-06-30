@@ -1,0 +1,28 @@
+---
+title: "RAFT + Key-Value Store"
+summary: "A replicated key-value store built on a hand-rolled Raft consensus implementation."
+status: "planned"
+tags: ["Go", "consensus", "distributed systems"]
+seriesId: "S-03"
+startDate: "2026-08-01"
+highlights:
+  - "Leader election and log replication implemented from the Raft paper"
+  - "A linearizable key-value store layered on top of the replicated log"
+  - "Fault-injection tests that kill and partition nodes mid-write"
+---
+
+## The problem
+
+Distributed consensus is the part of systems work I understand least by reading and
+most by building. Raft is designed to be understandable, which makes it the right
+place to start.
+
+## The approach
+
+The plan is to implement Raft in stages — leader election first, then log
+replication, then snapshotting — and only then layer a key-value store on top so the
+consensus core stays testable in isolation.
+
+## Where it stands
+
+Planned. Design notes and the build series will land before the first commit.

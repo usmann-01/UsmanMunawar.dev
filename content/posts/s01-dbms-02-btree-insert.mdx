@@ -1,0 +1,31 @@
+---
+title: "The B+ tree split I got wrong twice"
+date: "2026-06-22"
+series: "S-01"
+part: 2
+tags: ["b-tree", "database"]
+summary: "A build log on node splitting: the off-by-one in the median pick that cost me an afternoon."
+draft: false
+---
+
+Inserting into a B+ tree is easy until a node fills up. Then you *split*, and the
+split is where I lost an afternoon.
+
+## The median pick
+
+When a leaf overflows you push the median key up to the parent. My bug: I copied the
+median into the right node **and** left it in the left node.
+
+```python
+mid = len(keys) // 2
+left, right = keys[:mid], keys[mid:]  # median stays in `right`, promoted by copy
+```
+
+The fix was deciding, once, whether the median lives in the right node (leaf split)
+or moves up entirely (internal split). Those are different rules and conflating them
+is the classic mistake.
+
+## Takeaways
+
+- Leaf split: median is *copied* up, stays in the right leaf.
+- Internal split: median *moves* up, lives in neither child.
