@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/metadata'
+import { PageHeader } from '@/components/layout/PageHeader'
 import { Comments } from '@/components/Giscus'
 import { isGiscusConfigured } from '@/lib/giscus'
 
@@ -12,12 +13,11 @@ export const metadata: Metadata = pageMetadata({
 export default function GuestbookPage() {
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="mb-2 text-[clamp(1.875rem,4vw,2.5rem)] font-semibold text-[var(--color-text-primary)]">
-        Guestbook
-      </h1>
-      <p className="mb-8 text-[var(--color-text-secondary)]">
-        Leave a note — say hi, ask a question, whatever.
-      </p>
+      <PageHeader
+        eyebrow="guestbook"
+        title="Guestbook"
+        intro="Leave a note — say hi, ask a question, whatever."
+      />
 
       {/* One shared thread for all entries: mapping="specific" + a fixed term,
           so every guestbook signing lands in the same discussion regardless of

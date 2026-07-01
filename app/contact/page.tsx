@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { contactLinks } from '@/lib/site-config'
+import { PageHeader } from '@/components/layout/PageHeader'
 import { pageMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = pageMetadata({
@@ -12,12 +13,11 @@ export const metadata: Metadata = pageMetadata({
 export default function ContactPage() {
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="mb-2 text-[clamp(1.875rem,4vw,2.5rem)] font-semibold text-[var(--color-text-primary)]">
-        Contact
-      </h1>
-      <p className="mb-8 text-[var(--color-text-secondary)]">
-        The fastest way to reach me is email. I&apos;m also on these:
-      </p>
+      <PageHeader
+        eyebrow="contact"
+        title="Get in touch"
+        intro="The fastest way to reach me is email. I'm also on these:"
+      />
 
       <ul className="flex flex-col gap-3">
         {contactLinks.map(({ label, value, href }) => (

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/metadata'
+import { PageHeader } from '@/components/layout/PageHeader'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Now',
@@ -15,22 +16,26 @@ const lastUpdated = 'July 2026'
 export default function NowPage() {
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="mb-2 text-[clamp(1.875rem,4vw,2.5rem)] font-semibold text-[var(--color-text-primary)]">
-        Now
-      </h1>
-      <p className="mb-3 font-mono text-xs tracking-[0.02em] text-[var(--color-text-muted)]">
-        Last updated: {lastUpdated}
-      </p>
-      <p className="mb-8 text-[var(--color-text-secondary)]">
-        A snapshot of what I&apos;m currently focused on — inspired by{' '}
-        <a
-          href="https://nownownow.com"
-          className="text-[var(--color-accent)] transition-colors duration-[120ms] ease-out hover:underline"
-        >
-          nownownow.com
-        </a>
-        .
-      </p>
+      <PageHeader
+        eyebrow="now"
+        title="Now"
+        intro={
+          <>
+            A snapshot of what I&apos;m currently focused on — inspired by{' '}
+            <a
+              href="https://nownownow.com"
+              className="text-[var(--color-accent)] transition-colors duration-[120ms] ease-out hover:underline"
+            >
+              nownownow.com
+            </a>
+            .
+          </>
+        }
+      >
+        <p className="mt-3 font-mono text-xs tracking-[0.02em] text-[var(--color-text-muted)]">
+          Last updated: {lastUpdated}
+        </p>
+      </PageHeader>
 
       <div className="prose">
         <h2>Building</h2>

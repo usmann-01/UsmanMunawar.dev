@@ -7,8 +7,10 @@
  * ------------------------------------------------------------------ */
 
 @theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+  /* Display/structural face — headings, wordmark, labels. Mono by design. */
+  --font-display: var(--font-plex-mono);
 
   /* Radii (Section 8 — Spacing & Radii) */
   --radius-sm: 4px;
@@ -78,6 +80,30 @@
     font-family: var(--font-sans), system-ui, sans-serif;
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings are the display voice: monospace, heavier, optically tightened.
+     Mono needs negative tracking to feel like a headline rather than code, and
+     only at larger sizes — so the tightening scales down through the levels.
+     Per-page utilities still control size; this sets the shared character. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), ui-monospace, monospace;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+  h1 {
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+  h2 {
+    letter-spacing: -0.025em;
+  }
+  h3 {
+    letter-spacing: -0.015em;
   }
 
   ::selection {
@@ -239,12 +265,48 @@
   transform: translateY(-2px);
 }
 
-/* Accent gradient text (hero name, headings). */
+/* Accent gradient text — retained for incidental use, but no longer the hero
+   name (the design pass retired the decorative gradient headline). */
 .text-gradient {
   background: var(--gradient-accent);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* ------------------------------------------------------------------ *
+ * Display type scale (design pass, Phase 2 — hierarchy).
+ * The two loudest steps in the system. Mono face + weight come from the
+ * base h1 rule; these set the deliberate size/tracking/leading per level.
+ * ------------------------------------------------------------------ */
+
+/* Hero nameplate — the single largest type on the site. */
+.text-display {
+  font-size: clamp(2.75rem, 5vw + 1rem, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+/* Page H1 — one clear step below the hero, commands each interior page. */
+.text-page-title {
+  font-size: clamp(2rem, 3vw + 1rem, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+/* Prompt-mark eyebrow — the signature terminal motif: a mono label with an
+   accent caret, used above the hero name and every page title for wayfinding. */
+.eyebrow {
+  font-family: var(--font-display), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+.eyebrow > .caret {
+  color: var(--color-accent);
+  font-weight: 600;
 }
 
 /* Entrance animation — content fades up on mount. Stagger via inline delay. */

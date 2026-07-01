@@ -112,7 +112,7 @@ export default async function BlogPostPage({
               </div>
             )}
 
-            <h1 className="text-[clamp(1.875rem,4vw,2.75rem)] font-semibold leading-tight text-[var(--color-text-primary)]">
+            <h1 className="text-[clamp(2.125rem,5vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.03em] text-[var(--color-text-primary)]">
               {post.title}
             </h1>
 

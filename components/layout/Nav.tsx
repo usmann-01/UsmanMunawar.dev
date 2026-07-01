@@ -33,9 +33,10 @@ export function Nav() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="font-mono text-sm font-semibold text-[var(--color-text-primary)] transition-colors duration-[120ms] ease-out hover:text-[var(--color-accent)]"
+          className="group font-mono text-sm font-semibold text-[var(--color-text-primary)] transition-colors duration-[120ms] ease-out hover:text-[var(--color-accent)]"
         >
-          Usman Munawar
+          {/* Signature caret — the terminal prompt motif, echoed from the hero. */}
+          <span className="text-[var(--color-accent)]">❯</span> Usman Munawar
         </Link>
         <ul className="flex items-center gap-5 text-sm sm:gap-8">
           {links.map(({ href, label }) => {

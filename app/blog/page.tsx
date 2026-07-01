@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getAllPosts } from '@/lib/posts'
 import { PostCard } from '@/components/blog/PostCard'
+import { PageHeader } from '@/components/layout/PageHeader'
 import { pageMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = pageMetadata({
@@ -14,12 +15,11 @@ export default function BlogIndexPage() {
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="mb-2 text-[clamp(1.875rem,4vw,2.5rem)] font-semibold text-[var(--color-text-primary)]">
-        Blog
-      </h1>
-      <p className="mb-8 text-[var(--color-text-secondary)]">
-        Build logs and deep-dives from systems projects.
-      </p>
+      <PageHeader
+        eyebrow="blog"
+        title="Writing"
+        intro="Build logs and deep-dives from systems projects — the parts that surprised me, written down."
+      />
 
       {posts.length === 0 ? (
         <p className="text-[var(--color-text-muted)]">No posts yet. Check back soon.</p>

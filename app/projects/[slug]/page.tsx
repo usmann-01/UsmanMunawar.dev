@@ -70,7 +70,7 @@ export default async function ProjectDetailPage({
           </span>
         </div>
 
-        <h1 className="text-[clamp(1.875rem,4vw,2.5rem)] font-semibold leading-tight text-[var(--color-text-primary)]">
+        <h1 className="text-[clamp(2rem,4vw,2.875rem)] font-bold leading-[1.06] tracking-[-0.03em] text-[var(--color-text-primary)]">
           {project.title}
         </h1>
 

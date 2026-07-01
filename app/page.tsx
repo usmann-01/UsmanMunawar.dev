@@ -50,39 +50,33 @@ export default function Home() {
 
   return (
     <main className="w-full">
-      {/* CR-003 / CR-004 — Hero: full-bleed hero.jpg background, dark overlay for
-          legibility, and a centered name/tagline/CTA block. */}
+      {/* Signature hero — a calm, terminal-native typographic statement. No
+          photo competing with the name; the identity is the monospace itself:
+          a shell prompt eyebrow answering "whoami", the name as the response,
+          an accent hairline, then the tagline. Ambient tinted glow only. */}
       <section className="relative overflow-hidden border-b border-[var(--color-border)]">
-        {/* Fallback accent gradient — shows through if hero.jpg is missing. */}
+        {/* Ambient accent tint (tinted layer, not a decorative gradient) — a
+            faint depth cue behind the type, echoing the surface elevation model. */}
         <div
-          className="pointer-events-none absolute inset-0 -z-20"
+          className="pointer-events-none absolute inset-0 -z-10 opacity-70"
           style={{ background: 'var(--gradient-hero)' }}
           aria-hidden="true"
         />
-        {/* Full-bleed background image, cover-cropped (preserves aspect ratio). */}
-        <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-[var(--color-bg)] bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/hero.jpg')" }}
-          aria-hidden="true"
-        />
-        {/* Dark overlay between image and text for contrast. */}
-        <div
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{ background: 'var(--gradient-hero-overlay)' }}
-          aria-hidden="true"
-        />
-        <div className="mx-auto flex w-full max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 sm:py-28 lg:px-8">
-          <div className="animate-fade-up flex flex-col items-center">
-            <p className="mb-4 font-mono text-sm tracking-[0.02em] text-[var(--color-accent)]">
-              Hi, I&apos;m
+        <div className="mx-auto w-full max-w-5xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
+          <div className="animate-fade-up max-w-3xl">
+            <p className="eyebrow mb-5 text-sm">
+              <span className="caret">usman ❯</span> whoami
             </p>
-            <h1 className="text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[1.05] tracking-tight">
-              <span className="text-gradient">Usman Munawar</span>
-            </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-[var(--color-text-secondary)]">
+            <h1 className="text-display text-[var(--color-text-primary)]">Usman Munawar</h1>
+            {/* Signature accent hairline — the one bright stroke in the hero. */}
+            <div
+              className="mt-6 h-px w-24 bg-[var(--color-accent)]"
+              aria-hidden="true"
+            />
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-[var(--color-text-secondary)]">
               {heroTagline}
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <div className="mt-9 flex flex-wrap gap-3">
               <Link
                 href="/projects"
                 className="rounded-md bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-[var(--color-bg)] transition-all duration-[120ms] ease-out hover:opacity-90 hover:shadow-[var(--glow-accent)]"
@@ -91,9 +85,12 @@ export default function Home() {
               </Link>
               <Link
                 href="/blog"
-                className="rounded-md border border-[var(--color-border)] bg-[var(--color-bg-subtle)] px-5 py-2.5 text-sm font-medium text-[var(--color-text-primary)] transition-colors duration-[120ms] ease-out hover:bg-[var(--color-bg-hover)]"
+                className="group rounded-md border border-[var(--color-border)] bg-[var(--color-bg-subtle)] px-5 py-2.5 text-sm font-medium text-[var(--color-text-primary)] transition-colors duration-[120ms] ease-out hover:bg-[var(--color-bg-hover)]"
               >
-                Read the blog
+                Read the blog{' '}
+                <span className="text-[var(--color-accent)] transition-transform duration-[120ms] ease-out group-hover:translate-x-0.5 inline-block">
+                  ❯
+                </span>
               </Link>
             </div>
           </div>

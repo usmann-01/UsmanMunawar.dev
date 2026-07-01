@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getAllProjects, getCategories } from '@/lib/projects'
 import { ProjectsExplorer } from '@/components/projects/ProjectsExplorer'
+import { PageHeader } from '@/components/layout/PageHeader'
 import { pageMetadata } from '@/lib/metadata'
 import { assetExists } from '@/lib/assets'
 
@@ -32,15 +33,13 @@ export default function ProjectsIndexPage() {
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-      <header className="mb-10 max-w-2xl animate-fade-up">
-        <h1 className="mb-3 text-[clamp(1.875rem,4vw,2.5rem)] font-semibold text-[var(--color-text-primary)]">
-          Projects
-        </h1>
-        <p className="text-lg text-[var(--color-text-secondary)]">
-          A cross-section of what I build — from desktop apps and tools to systems software.
-          Filter by category to explore.
-        </p>
-      </header>
+      <div className="animate-fade-up">
+        <PageHeader
+          eyebrow="projects"
+          title="Projects"
+          intro="A cross-section of what I build — from desktop apps and tools to systems software. Filter by category to explore."
+        />
+      </div>
 
       {projects.length === 0 ? (
         <p className="text-[var(--color-text-muted)]">No projects yet. Check back soon.</p>
