@@ -345,7 +345,10 @@
    the content seen through the panel's glass (which would make it read heavier
    than the header). Fades with the panel. */
 .mobile-nav-backdrop {
-  background: rgba(0, 0, 0, 0.3);
+  /* Transparent (not dimmed): a dark scrim would darken the content behind the
+     panel, making the panel's glass read less bright than the header's. Kept
+     interactive only as a tap-to-close catcher. */
+  background: transparent;
   opacity: 0;
   visibility: hidden;
   transition:
