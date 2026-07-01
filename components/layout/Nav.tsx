@@ -50,7 +50,13 @@ export function Nav() {
 
   return (
     <>
-    <header className="glass-surface sticky top-0 z-50">
+    {/* Sticky wrapper with NO backdrop-filter of its own, so the header and the
+        menu panel below are siblings — each gets its own backdrop root (the
+        page). If the panel were a child of the glass header, its backdrop-filter
+        would root at the header and never blur the page (the blur would look
+        different from the header's). */}
+    <div className="sticky top-0 z-50">
+    <header className="glass-surface">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link
           href="/"
@@ -113,11 +119,12 @@ export function Nav() {
           </svg>
         </button>
       </nav>
+    </header>
 
-      {/* Mobile menu — below md only. Glassmorphism panel anchored under the
-          header via top-full (no magic height). Always rendered so it can
-          animate open AND close; data-open drives the transition, and when
-          closed it's visibility:hidden so backdrop-filter isn't painted. */}
+      {/* Mobile menu — sibling of the header (not a child), so its glass blurs
+          the page just like the header's. Anchored under the header via top-full
+          (= wrapper height). Always rendered so it can animate open AND close;
+          when closed it's visibility:hidden so backdrop-filter isn't painted. */}
       <div
         id="mobile-menu"
         data-open={open}
@@ -158,10 +165,10 @@ export function Nav() {
           })}
         </ul>
       </div>
-    </header>
+    </div>
 
-    {/* Scrim behind the mobile menu — a sibling of the header (not inside its
-        backdrop-blur, which would trap a fixed child). Tap to close. */}
+    {/* Scrim behind the mobile menu — outside the sticky wrapper (not inside a
+        backdrop-filter, which would trap a fixed child). Tap to close. */}
     <div
       className="mobile-nav-backdrop fixed inset-0 z-40 md:hidden"
       data-open={open}
