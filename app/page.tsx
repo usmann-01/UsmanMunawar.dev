@@ -74,19 +74,12 @@ export default function Home() {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              'linear-gradient(to right, color-mix(in srgb, var(--color-bg) 34%, transparent), transparent 55%)'
+              'linear-gradient(to right, color-mix(in srgb, var(--color-bg) 26%, transparent), transparent 48%)'
           }}
           aria-hidden="true"
         />
         <div className="mx-auto w-full max-w-5xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
-          {/* Frosted glass panel — carries its own legibility so the global
-              overlay can stay light and let the photo read through elsewhere. */}
-          <div
-            className="animate-fade-up max-w-3xl rounded-2xl border border-[var(--color-border)] p-6 backdrop-blur-md sm:p-8"
-            style={{
-              background: 'color-mix(in srgb, var(--color-bg) 28%, transparent)'
-            }}
-          >
+          <div className="animate-fade-up max-w-3xl backdrop-blur-[2px]">
             <p className="mb-5 font-mono text-sm tracking-[0.02em] text-[var(--color-accent)]">
               Hi, I&apos;m
             </p>
