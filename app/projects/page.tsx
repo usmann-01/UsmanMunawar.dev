@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { getAllProjects, getCategories } from '@/lib/projects'
 import { ProjectsExplorer } from '@/components/projects/ProjectsExplorer'
 import { pageMetadata } from '@/lib/metadata'
+import { assetExists } from '@/lib/assets'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Projects',
@@ -13,15 +14,21 @@ export default function ProjectsIndexPage() {
   const projects = getAllProjects()
   const categories = getCategories()
 
-  // Strip raw MDX content before handing off to the client explorer.
-  const explorerProjects = projects.map(({ slug, title, summary, status, category, tags }) => ({
-    slug,
-    title,
-    summary,
-    status,
-    category,
-    tags
-  }))
+  // Strip raw MDX content before handing off to the client explorer, and
+  // resolve each project's cover image server-side (fs isn't available once
+  // this data crosses into the client ProjectsExplorer component).
+  const explorerProjects = projects.map(({ slug, title, summary, status, category, tags }) => {
+    const asset = `/assets/projects/${slug}.jpg`
+    return {
+      slug,
+      title,
+      summary,
+      status,
+      category,
+      tags,
+      imageSrc: assetExists(asset) ? asset : undefined
+    }
+  })
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">

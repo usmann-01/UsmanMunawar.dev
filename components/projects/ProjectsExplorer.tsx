@@ -13,6 +13,7 @@ export interface ExplorerProject {
   status: ProjectStatus
   category: string
   tags: string[]
+  imageSrc?: string
 }
 
 // CR-006: portfolio as a first-class, filterable section. Client-side category
@@ -67,6 +68,7 @@ export function ProjectsExplorer({
               status={project.status}
               category={project.category}
               tags={project.tags}
+              imageSrc={project.imageSrc}
             />
           ))}
         </div>

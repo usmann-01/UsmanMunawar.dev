@@ -5,6 +5,7 @@ import { getAllProjects } from '@/lib/projects'
 import { PostCard } from '@/components/blog/PostCard'
 import { ProjectCard } from '@/components/projects/ProjectCard'
 import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder'
+import { assetExists } from '@/lib/assets'
 import {
   siteName,
   siteUrl,
@@ -125,6 +126,11 @@ export default function Home() {
                   status={project.status}
                   category={project.category}
                   tags={project.tags}
+                  imageSrc={
+                    assetExists(`/assets/projects/${project.slug}.jpg`)
+                      ? `/assets/projects/${project.slug}.jpg`
+                      : undefined
+                  }
                 />
               ))}
             </div>
@@ -148,6 +154,7 @@ export default function Home() {
             </div>
             <ImagePlaceholder
               asset="/assets/about.jpg"
+              imageSrc={assetExists('/assets/about.jpg') ? '/assets/about.jpg' : undefined}
               label="About / workspace photo"
               className="aspect-[4/3] w-full self-start"
             />

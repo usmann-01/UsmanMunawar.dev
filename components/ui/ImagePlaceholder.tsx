@@ -10,9 +10,26 @@ interface ImagePlaceholderProps {
   /** Short description of what the image will show. */
   label?: string
   className?: string
+  /**
+   * Pass the same value as `asset` once the real file exists on disk (checked
+   * server-side via lib/assets.ts's assetExists) to render the actual image
+   * instead of the placeholder box. Left undefined = still a placeholder.
+   */
+  imageSrc?: string
 }
 
-export function ImagePlaceholder({ asset, label, className = '' }: ImagePlaceholderProps) {
+export function ImagePlaceholder({ asset, label, className = '', imageSrc }: ImagePlaceholderProps) {
+  if (imageSrc) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- static /public asset, no next/image usage elsewhere in this codebase
+      <img
+        src={imageSrc}
+        alt={label ?? ''}
+        className={`rounded-lg border border-[var(--color-border)] object-cover ${className}`}
+      />
+    )
+  }
+
   return (
     <div
       className={`img-placeholder rounded-lg border border-[var(--color-border)] ${className}`}

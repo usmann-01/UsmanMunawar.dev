@@ -10,11 +10,13 @@ export interface ProjectCardProps {
   category: string
   tags: string[]
   slug: string
+  /** Set once public/assets/projects/<slug>.jpg exists; renders the real cover. */
+  imageSrc?: string
 }
 
 // Project index card. CR-004/006/007: richer than the flat list item — a
 // labeled image placeholder header, category pill, and a glow-on-hover lift.
-export function ProjectCard({ title, summary, status, category, tags, slug }: ProjectCardProps) {
+export function ProjectCard({ title, summary, status, category, tags, slug, imageSrc }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${slug}`}
@@ -22,6 +24,7 @@ export function ProjectCard({ title, summary, status, category, tags, slug }: Pr
     >
       <ImagePlaceholder
         asset={`/assets/projects/${slug}.jpg`}
+        imageSrc={imageSrc}
         label={`${title} cover`}
         className="aspect-[16/9] w-full rounded-none border-0 border-b border-[var(--color-border)]"
       />

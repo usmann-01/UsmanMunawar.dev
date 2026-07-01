@@ -12,6 +12,7 @@ import { pageMetadata } from '@/lib/metadata'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
 import { StatusBadge } from '@/components/projects/StatusBadge'
 import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder'
+import { assetExists } from '@/lib/assets'
 
 export function generateStaticParams() {
   return getAllProjects().map((project) => ({ slug: project.slug }))
@@ -108,6 +109,11 @@ export default async function ProjectDetailPage({
       {/* CR-006 — case-study cover image (swap-able placeholder for now). */}
       <ImagePlaceholder
         asset={`/assets/projects/${project.slug}.jpg`}
+        imageSrc={
+          assetExists(`/assets/projects/${project.slug}.jpg`)
+            ? `/assets/projects/${project.slug}.jpg`
+            : undefined
+        }
         label={`${project.title} cover`}
         className="mb-8 aspect-[2/1] w-full"
       />
