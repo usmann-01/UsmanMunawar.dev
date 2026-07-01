@@ -14,12 +14,9 @@ export const giscusConfig = {
   // Derived from the site's git remote (github.com/usmann-01/UsmanMunawar.dev).
   // Confirm this matches the "repo" field in your giscus.app config.
   repo: 'usmann-01/UsmanMunawar.dev' as Repo,
-  // TODO: paste from giscus.app ("repo-id").
-  repoId: '',
-  // TODO: paste from giscus.app (category name, e.g. "General" or "Comments").
-  category: '',
-  // TODO: paste from giscus.app ("category-id").
-  categoryId: ''
+  repoId: 'R_kgDOTJaSsQ',
+  category: 'Comments',
+  categoryId: 'DIC_kwDOTJaSsc4DARho'
 }
 
 // Built-in Giscus theme that best matches the site's dark palette. Swap for a
