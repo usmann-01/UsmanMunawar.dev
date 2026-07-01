@@ -50,16 +50,32 @@ export default function Home() {
 
   return (
     <main className="w-full">
-      {/* Signature hero — a calm, terminal-native typographic statement. No
-          photo competing with the name; the identity is the monospace itself:
-          a shell prompt eyebrow answering "whoami", the name as the response,
-          an accent hairline, then the tagline. Ambient tinted glow only. */}
+      {/* Signature hero — a terminal-native typographic statement over the
+          full-bleed photo: a shell prompt eyebrow answering "whoami", the name
+          as the response, an accent hairline, then the tagline. The overlay is
+          darker on the left, where the text sits, so the mono name stays crisp
+          over the busy part of the image. */}
       <section className="relative overflow-hidden border-b border-[var(--color-border)]">
-        {/* Ambient accent tint (tinted layer, not a decorative gradient) — a
-            faint depth cue behind the type, echoing the surface elevation model. */}
+        {/* Fallback accent gradient — shows through if hero.jpg is missing. */}
         <div
-          className="pointer-events-none absolute inset-0 -z-10 opacity-70"
+          className="pointer-events-none absolute inset-0 -z-20"
           style={{ background: 'var(--gradient-hero)' }}
+          aria-hidden="true"
+        />
+        {/* Full-bleed background image, cover-cropped (preserves aspect ratio). */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 bg-[var(--color-bg)] bg-cover bg-center"
+          style={{ backgroundImage: "url('/assets/hero.jpg')" }}
+          aria-hidden="true"
+        />
+        {/* Legibility overlay: stronger on the left (behind the text), lighter
+            on the right so the image reads through, plus a soft top/bottom fade. */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'linear-gradient(to right, color-mix(in srgb, var(--color-bg) 92%, transparent), color-mix(in srgb, var(--color-bg) 55%, transparent) 55%, color-mix(in srgb, var(--color-bg) 35%, transparent)), var(--gradient-hero-overlay)'
+          }}
           aria-hidden="true"
         />
         <div className="mx-auto w-full max-w-5xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
