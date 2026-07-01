@@ -74,7 +74,7 @@ export default function Home() {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              'linear-gradient(to right, color-mix(in srgb, var(--color-bg) 36%, transparent), color-mix(in srgb, var(--color-bg) 16%, transparent) 55%, color-mix(in srgb, var(--color-bg) 6%, transparent)), var(--gradient-hero-overlay)'
+              'linear-gradient(to right, color-mix(in srgb, var(--color-bg) 22%, transparent), transparent 45%)'
           }}
           aria-hidden="true"
         />
