@@ -83,7 +83,7 @@ export default function Home() {
             <p className="mb-5 font-mono text-sm tracking-[0.02em] text-[var(--color-accent)]">
               Hi, I&apos;m
             </p>
-            <h1 className="text-display text-[var(--color-text-primary)]">Usman Munawar</h1>
+            <h1 className="text-display text-gradient-glow">Usman Munawar</h1>
             {/* Signature accent hairline — the one bright stroke in the hero. */}
             <div
               className="mt-6 h-px w-24 bg-[var(--color-accent)]"

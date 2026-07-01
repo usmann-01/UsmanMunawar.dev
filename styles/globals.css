@@ -299,6 +299,17 @@
   color: transparent;
 }
 
+/* Gradient hero name with an accent glow. drop-shadow (not box-shadow) hugs the
+   letter shapes, so the glow works with the clipped gradient fill. */
+.text-gradient-glow {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 22px rgba(124, 158, 255, 0.5))
+    drop-shadow(0 2px 6px rgba(124, 158, 255, 0.3));
+}
+
 /* ------------------------------------------------------------------ *
  * Display type scale (design pass, Phase 2 — hierarchy).
  * The two loudest steps in the system. Mono face + weight come from the
