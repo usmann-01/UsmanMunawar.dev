@@ -58,20 +58,22 @@ export default function Home() {
           style={{ background: 'var(--gradient-hero)' }}
           aria-hidden="true"
         />
-        {/* Full-bleed background image, cover-cropped (preserves aspect ratio). */}
+        {/* Full-bleed background image, cover-cropped (preserves aspect ratio).
+            Kept ~85% opaque so the photo reads clearly; the glass panel carries
+            text legibility instead of a heavy full-section overlay. */}
         <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-[var(--color-bg)] bg-cover bg-center"
+          className="pointer-events-none absolute inset-0 -z-10 bg-[var(--color-bg)] bg-cover bg-center opacity-[0.85]"
           style={{ backgroundImage: "url('/assets/hero.jpg')" }}
           aria-hidden="true"
         />
-        {/* Dark overlay between image and text for contrast. */}
+        {/* Subtle vignette between image and text. */}
         <div
           className="pointer-events-none absolute inset-0 -z-10"
           style={{ background: 'var(--gradient-hero-overlay)' }}
           aria-hidden="true"
         />
-        <div className="mx-auto flex w-full max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 sm:py-28 lg:px-8">
-          <div className="animate-fade-up flex flex-col items-center">
+        <div className="mx-auto flex w-full max-w-3xl flex-col items-center px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+          <div className="glass-panel animate-fade-up flex w-full max-w-2xl flex-col items-center rounded-2xl px-6 py-10 text-center sm:px-12 sm:py-14">
             <p className="mb-4 font-mono text-sm tracking-[0.02em] text-[var(--color-accent)]">
               Hi, I&apos;m
             </p>
