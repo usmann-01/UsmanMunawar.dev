@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { formatDate } from '@/lib/date'
+import { CardGlow } from '@/components/ui/CardGlow'
 
 export interface PostCardProps {
   title: string
@@ -17,8 +18,9 @@ export function PostCard({ title, date, summary, tags, series, slug, readingTime
   return (
     <Link
       href={`/blog/${slug}`}
-      className="card-glow group block rounded-md border border-[var(--color-border)] bg-[var(--color-bg-subtle)] p-4 hover:bg-[var(--color-bg-hover)]"
+      className="card-glow group relative isolate block rounded-md border border-[var(--color-border)] bg-[var(--color-bg-subtle)] p-4 hover:bg-[var(--color-bg-hover)]"
     >
+      <CardGlow />
       <div className="mb-2 flex items-center justify-between font-mono text-xs tracking-[0.02em] text-[var(--color-text-muted)]">
         <span>{formatDate(date)}</span>
         <span>{readingTime} min read</span>

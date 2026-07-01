@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { ProjectStatus } from '@/lib/projects'
 import { StatusBadge } from '@/components/projects/StatusBadge'
 import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder'
+import { CardGlow } from '@/components/ui/CardGlow'
 
 export interface ProjectCardProps {
   title: string
@@ -20,8 +21,9 @@ export function ProjectCard({ title, summary, status, category, tags, slug, imag
   return (
     <Link
       href={`/projects/${slug}`}
-      className="card-glow group flex flex-col overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-subtle)]"
+      className="card-glow group relative isolate flex flex-col overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-subtle)]"
     >
+      <CardGlow />
       <ImagePlaceholder
         asset={`/assets/projects/${slug}.jpg`}
         imageSrc={imageSrc}
