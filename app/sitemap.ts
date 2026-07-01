@@ -8,6 +8,7 @@ const staticRoutes: { path: string; changeFrequency: MetadataRoute.Sitemap[numbe
   // CR-005: /about is now a section on the home page, not a standalone route.
   { path: '/projects', changeFrequency: 'weekly', priority: 0.8 },
   { path: '/blog', changeFrequency: 'weekly', priority: 0.8 },
+  { path: '/now', changeFrequency: 'monthly', priority: 0.5 },
   { path: '/skills', changeFrequency: 'monthly', priority: 0.5 },
   { path: '/contact', changeFrequency: 'yearly', priority: 0.5 }
 ]
