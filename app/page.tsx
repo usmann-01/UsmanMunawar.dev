@@ -5,6 +5,7 @@ import { getAllProjects } from '@/lib/projects'
 import { PostCard } from '@/components/blog/PostCard'
 import { ProjectCard } from '@/components/projects/ProjectCard'
 import { GitHubActivity } from '@/components/home/GitHubActivity'
+import { StatStrip } from '@/components/home/StatStrip'
 import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder'
 import { assetExists } from '@/lib/assets'
 import {
@@ -101,6 +102,10 @@ export default function Home() {
       </section>
 
       <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        {/* Compact "at a glance" stat strip — instant credibility signals
+            directly below the hero, before any prose. Build-time data only. */}
+        <StatStrip />
+
         {/* CR-006 — Featured projects, given first-class prominence. */}
         <section className="mb-20">
           <div className="mb-6 flex items-baseline justify-between">
