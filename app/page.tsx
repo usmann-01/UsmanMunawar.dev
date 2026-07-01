@@ -80,7 +80,7 @@ export default function Home() {
         />
         {/* Glassmorphism — a faint frosted layer over the whole photo, not just
             the text, so the effect reads as one surface. */}
-        <div className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[2px] backdrop-brightness-[85%]" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[2px] backdrop-brightness-[75%]" aria-hidden="true" />
         <div className="mx-auto w-full max-w-5xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
           <div className="animate-fade-up max-w-3xl">
             <p className="mb-5 font-mono text-sm tracking-[0.02em] text-[var(--color-accent)]">
