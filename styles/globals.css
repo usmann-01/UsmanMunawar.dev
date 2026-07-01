@@ -272,6 +272,22 @@
   animation: shimmer 1.5s infinite;
 }
 
+/* Skill icon badge — subtle lift + accent glow on hover, matching the
+   card-glow interaction used elsewhere. Reuses the existing glow token. */
+.skill-badge {
+  transition:
+    transform 200ms ease-out,
+    background-color 200ms ease-out,
+    border-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+.group:hover .skill-badge {
+  transform: translateY(-4px) scale(1.05);
+  background-color: var(--color-bg-hover);
+  border-color: var(--color-accent-muted);
+  box-shadow: var(--glow-accent);
+}
+
 /* Image placeholder — labeled swap-able box until a real asset is dropped in
    /public/assets. Faint diagonal hatch so it reads as "intentionally empty". */
 .img-placeholder {
