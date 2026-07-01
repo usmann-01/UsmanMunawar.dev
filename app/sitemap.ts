@@ -5,7 +5,7 @@ import { siteUrl } from '@/lib/site-config'
 
 const staticRoutes: { path: string; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']; priority: number }[] = [
   { path: '/', changeFrequency: 'monthly', priority: 1 },
-  { path: '/about', changeFrequency: 'monthly', priority: 0.8 },
+  // CR-005: /about is now a section on the home page, not a standalone route.
   { path: '/projects', changeFrequency: 'weekly', priority: 0.8 },
   { path: '/blog', changeFrequency: 'weekly', priority: 0.8 },
   { path: '/skills', changeFrequency: 'monthly', priority: 0.5 },

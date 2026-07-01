@@ -11,6 +11,7 @@ import { formatDate } from '@/lib/date'
 import { pageMetadata } from '@/lib/metadata'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
 import { StatusBadge } from '@/components/projects/StatusBadge'
+import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder'
 
 export function generateStaticParams() {
   return getAllProjects().map((project) => ({ slug: project.slug }))
@@ -53,10 +54,15 @@ export default async function ProjectDetailPage({
     : `${formatDate(project.startDate)} – Present`
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-16">
+    <main className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <header className="mb-8">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <StatusBadge status={project.status} />
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-sm bg-[var(--color-accent-muted)] px-2 py-0.5 font-mono text-xs tracking-[0.02em] text-[var(--color-text-primary)]">
+              {project.category}
+            </span>
+            <StatusBadge status={project.status} />
+          </div>
           <span className="font-mono text-xs tracking-[0.02em] text-[var(--color-text-muted)]">
             {dateRange}
           </span>
@@ -98,6 +104,13 @@ export default async function ProjectDetailPage({
           )}
         </div>
       </header>
+
+      {/* CR-006 — case-study cover image (swap-able placeholder for now). */}
+      <ImagePlaceholder
+        asset={`/assets/projects/${project.slug}.jpg`}
+        label={`${project.title} cover`}
+        className="mb-8 aspect-[2/1] w-full"
+      />
 
       {project.highlights.length > 0 && (
         <section className="mb-8 rounded-md border border-[var(--color-border)] bg-[var(--color-bg-subtle)] p-4">

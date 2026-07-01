@@ -5,7 +5,7 @@ import { contactLinks } from '@/lib/site-config'
 export function Footer() {
   return (
     <footer className="mt-auto border-t border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
-      <div className="mx-auto flex max-w-3xl flex-col gap-2 px-4 py-8 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
         <p className="font-mono text-xs tracking-[0.02em] text-[var(--color-text-muted)]">
           © {new Date().getFullYear()} Usman Munawar
         </p>

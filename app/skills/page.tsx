@@ -33,7 +33,7 @@ const skillGroups: { category: string; items: string[] }[] = [
 
 export default function SkillsPage() {
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-16">
+    <main className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="mb-2 text-[clamp(1.875rem,4vw,2.5rem)] font-semibold text-[var(--color-text-primary)]">
         Skills
       </h1>

@@ -22,3 +22,9 @@ export function getAllProjects(): Project[] {
 export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((project) => project.slug === slug)
 }
+
+// CR-002/CR-006: the set of project categories actually in use, sorted, for the
+// portfolio's category filter. Derived from content so no category is hard-coded.
+export function getCategories(): string[] {
+  return Array.from(new Set(projects.map((project) => project.category))).sort()
+}

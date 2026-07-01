@@ -52,6 +52,14 @@
 
   /* Prose */
   --prose-max-width: 68ch;
+
+  /* CR-004 — Visual richness. Gradients and glows layered on the existing
+     token palette so the dark theme gains depth without new base colors. */
+  --gradient-hero:
+    radial-gradient(60% 80% at 15% 0%, rgba(124, 158, 255, 0.14), transparent 60%),
+    radial-gradient(50% 60% at 100% 0%, rgba(59, 63, 140, 0.22), transparent 55%);
+  --gradient-accent: linear-gradient(135deg, #7c9eff 0%, #a78bfa 100%);
+  --glow-accent: 0 0 0 1px rgba(124, 158, 255, 0.35), 0 8px 30px -8px rgba(124, 158, 255, 0.35);
 }
 
 @layer base {
@@ -190,5 +198,94 @@
   *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
+}
+
+/* ------------------------------------------------------------------ *
+ * CR-004 / CR-007 — Dynamic effects.
+ * Glow accents, entrance animations, and skeleton/image placeholders.
+ * All motion is gated by the reduced-motion block above.
+ * ------------------------------------------------------------------ */
+
+/* Card glow-on-hover: a soft accent ring + lift, cheap enough to stay under
+   the <2s / no-jank performance budget (uses transform + box-shadow only). */
+.card-glow {
+  transition:
+    background-color 120ms ease-out,
+    border-color 120ms ease-out,
+    box-shadow 160ms ease-out,
+    transform 160ms ease-out;
+  will-change: transform;
+}
+.card-glow:hover {
+  border-color: var(--color-accent-muted);
+  box-shadow: var(--glow-accent);
+  transform: translateY(-2px);
+}
+
+/* Accent gradient text (hero name, headings). */
+.text-gradient {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Entrance animation — content fades up on mount. Stagger via inline delay. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  animation: fade-up 500ms ease-out both;
+}
+
+/* Skeleton shimmer for loading/placeholder surfaces. */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg-subtle);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.06),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+/* Image placeholder — labeled swap-able box until a real asset is dropped in
+   /public/assets. Faint diagonal hatch so it reads as "intentionally empty". */
+.img-placeholder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--color-bg-elevated);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(124, 158, 255, 0.05) 0px,
+    rgba(124, 158, 255, 0.05) 1px,
+    transparent 1px,
+    transparent 12px
+  );
 }

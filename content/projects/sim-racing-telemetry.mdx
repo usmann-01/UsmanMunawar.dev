@@ -1,0 +1,30 @@
+---
+title: "Sim Racing Telemetry Tool"
+summary: "A live telemetry overlay that reads sim racing data and coaches you with real-time tips."
+status: "in-progress"
+category: "Tools"
+tags: ["Python", "telemetry", "real-time", "data viz"]
+githubUrl: "https://github.com/usmann-01/sim-racing-telemetry"
+startDate: "2026-03-15"
+highlights:
+  - "Parses the game's live telemetry stream over UDP at 60 Hz without dropping frames"
+  - "Real-time coaching tips: braking points, throttle trace, and cornering lines"
+  - "Lap comparison overlay so you can see exactly where a faster lap gained time"
+---
+
+## The problem
+
+Sim racing produces a firehose of telemetry, but the raw numbers don't tell you
+*how* to go faster. I wanted something that turned the live stream into actionable
+coaching while I'm still on track.
+
+## The approach
+
+The tool listens to the game's telemetry feed, buffers laps, and compares your
+current lap against your best. A lightweight overlay surfaces the few tips that
+actually matter in the moment — brake later here, get on throttle earlier there.
+
+## Where it stands
+
+In progress. Live parsing and the throttle/brake traces work; the coaching
+heuristics and lap-delta overlay are being tuned against real driving data.

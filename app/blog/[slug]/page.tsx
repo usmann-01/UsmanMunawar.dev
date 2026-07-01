@@ -58,7 +58,7 @@ export default async function BlogPostPage({
   const { prev, next } = getSeriesNeighbors(post)
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-16">
+    <main className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <header className="mb-8">
         <div className="mb-4 flex items-center justify-between font-mono text-xs tracking-[0.02em] text-[var(--color-text-muted)]">
           <time dateTime={post.date}>{formatDate(post.date)}</time>

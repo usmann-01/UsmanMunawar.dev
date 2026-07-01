@@ -9,12 +9,16 @@ export const siteUrl = 'https://usman-munawar-dev.vercel.app'
 // Vision statement summary (Section 1) — used as the home page description
 // and the root layout's default description.
 export const siteDescription =
-  'A personal site where I document my journey building systems software and my learnings along the way.'
+  'Portfolio and blog of Usman Munawar — I build things from scratch, from desktop apps and tools to systems software, and write about what I learn.'
 
-// First paragraph of the About page — reused as both page copy and the
-// About page's meta description (Section 12: "First paragraph of about page").
+// Short hero tagline shown under the name on the home page.
+export const heroTagline =
+  'I build things from scratch — desktop apps, tools, and systems software — and write about what I learn along the way.'
+
+// About intro — reused as the copy for the home page About section (CR-005,
+// folded in from the former standalone About page).
 export const aboutIntro =
-  "I'm Usman Munawar, a developer focused on systems software — the layer where databases, networks, and operating systems actually do their work. I learn by building things from scratch and writing down what surprised me."
+  "I'm Usman Munawar, a developer who learns by building. My projects range widely — a desktop Markdown reader, a live sim-racing telemetry tool, a mini database engine — because I'm curious about how software works at every layer, not just one. I build things from scratch and write down what surprised me."
 
 // Placeholder path — the actual image asset doesn't exist yet (see Section 12
 // task summary). Wired in now so OG/Twitter metadata is structurally complete.
