@@ -43,10 +43,10 @@ export function ProjectsExplorer({
               aria-selected={isActive}
               onClick={() => setActive(filter)}
               className={
-                'rounded-full border px-3 py-1.5 text-sm transition-colors duration-[120ms] ease-out ' +
+                'rounded-full border px-3 py-1.5 text-sm transition-[color,background-color,border-color,transform] duration-[140ms] ease-out active:scale-[0.96] ' +
                 (isActive
                   ? 'border-[var(--color-accent)] bg-[var(--color-accent-muted)] text-[var(--color-text-primary)]'
-                  : 'border-[var(--color-border)] bg-[var(--color-bg-subtle)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-hover)] hover:text-[var(--color-text-primary)]')
+                  : 'border-[var(--color-border)] bg-[var(--color-bg-subtle)] text-[var(--color-text-secondary)] hover:-translate-y-px hover:border-[var(--color-accent-muted)] hover:bg-[var(--color-bg-hover)] hover:text-[var(--color-text-primary)]')
               }
             >
               {filter}

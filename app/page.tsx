@@ -95,13 +95,13 @@ export default function Home() {
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
                 href="/projects"
-                className="rounded-md bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-[var(--color-bg)] transition-all duration-[120ms] ease-out hover:opacity-90 hover:shadow-[var(--glow-accent)]"
+                className="rounded-md bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-[var(--color-bg)] transition-all duration-[140ms] ease-out hover:-translate-y-px hover:opacity-90 hover:shadow-[var(--glow-accent)] active:translate-y-0 active:scale-[0.98]"
               >
                 View projects
               </Link>
               <Link
                 href="/blog"
-                className="group rounded-md border border-[var(--color-border)] bg-[var(--color-bg-subtle)] px-5 py-2.5 text-sm font-medium text-[var(--color-text-primary)] transition-colors duration-[120ms] ease-out hover:bg-[var(--color-bg-hover)]"
+                className="group rounded-md border border-[var(--color-border)] bg-[var(--color-bg-subtle)] px-5 py-2.5 text-sm font-medium text-[var(--color-text-primary)] transition-all duration-[140ms] ease-out hover:-translate-y-px hover:border-[var(--color-accent-muted)] hover:bg-[var(--color-bg-hover)] active:translate-y-0 active:scale-[0.98]"
               >
                 Read the blog{' '}
                 <span className="text-[var(--color-accent)] transition-transform duration-[120ms] ease-out group-hover:translate-x-0.5 inline-block">

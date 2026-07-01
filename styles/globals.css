@@ -249,20 +249,26 @@
  * All motion is gated by the reduced-motion block above.
  * ------------------------------------------------------------------ */
 
-/* Card glow-on-hover: a soft accent ring + lift, cheap enough to stay under
-   the <2s / no-jank performance budget (uses transform + box-shadow only). */
+/* Card glow-on-hover: a soft accent ring + lift, plus a hairline top highlight
+   that reads as a crafted edge (tinted layer, not a heavy shadow). A snappy
+   ease-out-quint curve on the lift feels tactile; :active presses the card back
+   down for real click feedback. transform + box-shadow only — no layout cost. */
 .card-glow {
   transition:
-    background-color 120ms ease-out,
-    border-color 120ms ease-out,
-    box-shadow 160ms ease-out,
-    transform 160ms ease-out;
+    background-color 140ms ease-out,
+    border-color 140ms ease-out,
+    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
 .card-glow:hover {
   border-color: var(--color-accent-muted);
-  box-shadow: var(--glow-accent);
-  transform: translateY(-2px);
+  box-shadow: var(--glow-accent), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transform: translateY(-3px);
+}
+.card-glow:active {
+  transform: translateY(-1px) scale(0.995);
+  transition-duration: 90ms;
 }
 
 /* Accent gradient text — retained for incidental use, but no longer the hero
