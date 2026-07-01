@@ -11,6 +11,8 @@ import { pageMetadata } from '@/lib/metadata'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
 import { SeriesNav } from '@/components/blog/SeriesNav'
 import { SeriesBadge } from '@/components/blog/SeriesBadge'
+import { Comments } from '@/components/Giscus'
+import { isGiscusConfigured } from '@/lib/giscus'
 import { assetExists } from '@/lib/assets'
 
 export function generateStaticParams() {
@@ -144,6 +146,18 @@ export default async function BlogPostPage({
         </article>
 
         <SeriesNav prev={prev} next={next} />
+
+        {/* Comments — Giscus (GitHub Discussions). Lazy-loaded below the fold so
+            it doesn't affect LCP. mapping="pathname" gives each post its own
+            thread. Hidden entirely until Giscus is configured (lib/giscus.ts). */}
+        {isGiscusConfigured() && (
+          <section className="mt-16 border-t border-[var(--color-border)] pt-10">
+            <h2 className="mb-6 text-2xl font-semibold text-[var(--color-text-primary)]">
+              Comments
+            </h2>
+            <Comments mapping="pathname" />
+          </section>
+        )}
       </div>
     </main>
   )

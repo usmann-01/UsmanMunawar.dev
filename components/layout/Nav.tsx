@@ -11,7 +11,9 @@ const links = [
   { href: '/blog', label: 'Blog' },
   { href: '/now', label: 'Now' },
   { href: '/skills', label: 'Skills' },
-  { href: '/contact', label: 'Contact' }
+  { href: '/contact', label: 'Contact' },
+  // Lower-priority link — placed last, after core navigation.
+  { href: '/guestbook', label: 'Guestbook' }
 ]
 
 // Panel-less, transparent header: logo left, plain text links right, sitting
