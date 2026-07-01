@@ -61,14 +61,13 @@
   --gradient-accent: linear-gradient(135deg, #7c9eff 0%, #a78bfa 100%);
   --glow-accent: 0 0 0 1px rgba(124, 158, 255, 0.35), 0 8px 30px -8px rgba(124, 158, 255, 0.35);
 
-  /* Light vignette over the hero background image — kept subtle so the image
-     stays ~80% visible; the glass panel now carries text legibility. Uses only
+  /* Dark overlay for text legibility over the hero background image. Uses only
      the existing --color-bg (just varied alpha) so no new palette is added. */
   --gradient-hero-overlay: linear-gradient(
     to bottom,
-    color-mix(in srgb, var(--color-bg) 18%, transparent),
-    color-mix(in srgb, var(--color-bg) 8%, transparent) 45%,
-    color-mix(in srgb, var(--color-bg) 38%, transparent)
+    color-mix(in srgb, var(--color-bg) 72%, transparent),
+    color-mix(in srgb, var(--color-bg) 55%, transparent) 45%,
+    color-mix(in srgb, var(--color-bg) 88%, transparent)
   );
 }
 
@@ -280,35 +279,6 @@
     transparent
   );
   animation: shimmer 1.5s infinite;
-}
-
-/* High-end glassmorphism panel — frosted translucent surface with blur +
-   saturation, a hairline light border, a soft drop shadow, and an inset top
-   highlight for the "polished glass" edge. Built from the existing --color-bg
-   tokens (varied alpha) plus white at low alpha for the specular edge, so no
-   new base palette is introduced. */
-.glass-panel {
-  position: relative;
-  background: color-mix(in srgb, var(--color-bg-elevated) 42%, transparent);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
-  border: 1px solid color-mix(in srgb, #ffffff 12%, transparent);
-  box-shadow:
-    0 16px 48px -12px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
-}
-/* Faint diagonal sheen across the top-left for extra depth. */
-.glass-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0) 40%
-  );
 }
 
 /* Skill icon badge — subtle lift + accent glow on hover, matching the
