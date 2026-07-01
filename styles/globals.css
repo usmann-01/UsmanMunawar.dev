@@ -124,6 +124,11 @@
 
 .prose {
   max-width: var(--prose-max-width);
+  /* Reading comfort for the 2-hour session: slightly larger body and generous
+     leading. The typography plugin's element margins are em-based, so bumping
+     font-size scales the vertical rhythm proportionally. */
+  font-size: 1.0625rem;
+  line-height: 1.8;
 
   --tw-prose-body: var(--color-text-primary);
   --tw-prose-headings: var(--color-text-primary);
@@ -155,6 +160,20 @@
 }
 .prose a:hover {
   text-decoration: underline;
+}
+
+/* Reading calm: autolinked headings (rehype-autolink 'wrap') keep the heading
+   color instead of the accent link color, so the article column stays the
+   quietest surface on the site. A faint accent tint appears only on hover to
+   hint the anchor is there — no underline, no permanent blue. */
+.prose :where(h1, h2, h3, h4) a {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+.prose :where(h1, h2, h3, h4) a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
 }
 
 /* Blockquote: 3px left bar in accent-muted, no background fill. */
