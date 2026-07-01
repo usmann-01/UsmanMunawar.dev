@@ -11,6 +11,7 @@ import { formatDate } from '@/lib/date'
 import { pageMetadata } from '@/lib/metadata'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
 import { StatusBadge } from '@/components/projects/StatusBadge'
+import { ProjectChangelog } from '@/components/projects/ProjectChangelog'
 import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder'
 import { assetExists } from '@/lib/assets'
 
@@ -147,6 +148,11 @@ export default async function ProjectDetailPage({
           }}
         />
       </article>
+
+      {/* Live "Recent Updates" changelog — server-fetched commits at
+          build/revalidate time (lib/github.ts). Only rendered for projects that
+          have a repo; renders nothing if GitHub is unreachable/rate-limited. */}
+      {project.githubUrl && <ProjectChangelog githubUrl={project.githubUrl} />}
     </main>
   )
 }

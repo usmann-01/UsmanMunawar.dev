@@ -30,6 +30,43 @@ interface GitHubEvent {
   }
 }
 
+// Shared server-side GitHub GET. Caches at build/revalidate time (hourly) so it
+// never runs in the browser and ships no fetch logic to the client bundle.
+// Resolves to null on any failure — network error, rate limit (60 req/hour
+// unauthenticated), or non-200 — so callers can degrade to hiding their section
+// rather than surfacing an error to the visitor.
+async function fetchGitHub<T>(url: string): Promise<T | null> {
+  try {
+    const res = await fetch(url, {
+      headers: {
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      },
+      next: { revalidate: 3600 }
+    })
+    if (!res.ok) return null
+    return (await res.json()) as T
+  } catch {
+    return null
+  }
+}
+
+// Extract "owner/repo" from a GitHub URL like https://github.com/owner/repo(.git)
+// (trailing path segments and .git suffix are tolerated). Returns null if the
+// URL isn't a recognizable github.com repo URL.
+export function parseRepoSlug(githubUrl: string): string | null {
+  try {
+    const { hostname, pathname } = new URL(githubUrl)
+    if (hostname !== 'github.com' && hostname !== 'www.github.com') return null
+    const parts = pathname.split('/').filter(Boolean)
+    if (parts.length < 2) return null
+    const [owner, repo] = parts
+    return `${owner}/${repo.replace(/\.git$/, '')}`
+  } catch {
+    return null
+  }
+}
+
 // Only these event types are meaningful for an activity feed; everything else
 // (WatchEvent/"starred", FollowEvent, etc.) is noise and gets filtered out.
 const KEPT_TYPES = new Set(['PushEvent', 'PullRequestEvent', 'CreateEvent'])
@@ -80,29 +117,62 @@ function toActivityItem(event: GitHubEvent): GitHubActivityItem | null {
  * empty array and the caller hides the section rather than surfacing an error.
  */
 export async function getGitHubActivity(username: string): Promise<GitHubActivityItem[]> {
-  try {
-    const res = await fetch(`https://api.github.com/users/${username}/events/public`, {
-      headers: {
-        Accept: 'application/vnd.github+json',
-        'X-GitHub-Api-Version': '2022-11-28'
-      },
-      // Cache at build/revalidate time and refresh at most hourly. Keeps the
-      // page static (no per-request fetch, no client JS) while staying fresh.
-      next: { revalidate: 3600 }
-    })
+  const events = await fetchGitHub<GitHubEvent[]>(
+    `https://api.github.com/users/${username}/events/public`
+  )
+  if (!Array.isArray(events)) return []
 
-    if (!res.ok) return []
+  return events
+    .filter((event) => KEPT_TYPES.has(event.type))
+    .map(toActivityItem)
+    .filter((item): item is GitHubActivityItem => item !== null)
+    .slice(0, 6)
+}
 
-    const events = (await res.json()) as GitHubEvent[]
-    if (!Array.isArray(events)) return []
+// A single repo commit, trimmed to what the changelog renders.
+export interface RepoCommit {
+  /** Short 7-char SHA. */
+  sha: string
+  /** First line of the commit message, truncated to ~80 chars. */
+  message: string
+  /** ISO 8601 author date. */
+  date: string
+  /** Link to the commit on GitHub. */
+  url: string
+}
 
-    return events
-      .filter((event) => KEPT_TYPES.has(event.type))
-      .map(toActivityItem)
-      .filter((item): item is GitHubActivityItem => item !== null)
-      .slice(0, 6)
-  } catch {
-    // Network/parse failure — degrade to empty so the homepage never breaks.
-    return []
+// Minimal subset of the GitHub Commits API response we actually read.
+interface GitHubCommit {
+  sha: string
+  html_url: string
+  commit: {
+    message: string
+    author: { date: string } | null
   }
+}
+
+/**
+ * Fetch the most recent commits for a project's repo, given its githubUrl.
+ * Returns [] when the URL isn't a parseable github.com repo, or on any API
+ * failure/rate-limit — so the caller hides the changelog rather than breaking.
+ */
+export async function getRepoCommits(githubUrl: string): Promise<RepoCommit[]> {
+  const slug = parseRepoSlug(githubUrl)
+  if (!slug) return []
+
+  const commits = await fetchGitHub<GitHubCommit[]>(
+    `https://api.github.com/repos/${slug}/commits?per_page=6`
+  )
+  if (!Array.isArray(commits)) return []
+
+  return commits.map((c) => {
+    const firstLine = c.commit.message.split('\n')[0]
+    const message = firstLine.length > 80 ? `${firstLine.slice(0, 79)}…` : firstLine
+    return {
+      sha: c.sha.slice(0, 7),
+      message,
+      date: c.commit.author?.date ?? '',
+      url: c.html_url
+    }
+  })
 }
