@@ -301,9 +301,12 @@
    is transitioned too, so when fully closed the panel is not painted and the
    (GPU-costly) backdrop-filter is inactive. */
 .mobile-nav-panel {
-  background: color-mix(in srgb, var(--color-bg-elevated) 88%, transparent);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  /* Glass matched exactly to the header: same blur(8px) (backdrop-blur-sm) and
+     the same --color-bg tint density (~70%), so the two glass surfaces read as
+     one material. The accent border + glow below are the panel's own lit edge. */
+  background: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   border: 1px solid color-mix(in srgb, var(--color-accent) 18%, transparent);
   box-shadow:
     0 18px 50px -12px color-mix(in srgb, var(--color-accent) 22%, transparent),
