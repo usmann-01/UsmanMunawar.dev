@@ -117,6 +117,12 @@
   --tw-prose-td-borders: var(--color-border);
 }
 
+/* Heading anchor targets (ToC links / autolinked headings) clear the sticky
+   Nav when jumped to. :where() keeps specificity at 0 so prose styles win. */
+.prose :where(h2, h3) {
+  scroll-margin-top: 6rem;
+}
+
 /* Inline links: no underline by default, underline on hover only. */
 .prose a {
   text-decoration: none;

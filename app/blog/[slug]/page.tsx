@@ -11,8 +11,11 @@ import { pageMetadata } from '@/lib/metadata'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
 import { SeriesNav } from '@/components/blog/SeriesNav'
 import { SeriesBadge } from '@/components/blog/SeriesBadge'
+import { ReadingProgress } from '@/components/blog/ReadingProgress'
+import { TableOfContents } from '@/components/blog/TableOfContents'
 import { Comments } from '@/components/Giscus'
 import { isGiscusConfigured } from '@/lib/giscus'
+import { extractToc } from '@/lib/toc'
 import { assetExists } from '@/lib/assets'
 
 export function generateStaticParams() {
@@ -67,8 +70,16 @@ export default async function BlogPostPage({
   const heroAsset = `/assets/blog/${post.slug}.jpg`
   const heroImage = assetExists(heroAsset) ? heroAsset : null
 
+  // Table of contents from the post's h2/h3 (reusing rehype-slug anchors). Only
+  // worth showing on longer posts, so skip it below 3 headings — short posts
+  // get the plain single-column reading layout instead.
+  const toc = extractToc(post.content)
+  const hasToc = toc.length >= 3
+
   return (
     <main className="w-full">
+      {/* Fixed 2px scroll-progress bar, above the Nav — blog posts only. */}
+      <ReadingProgress />
       {/* Hero — same treatment/dimensions as the home page hero: full-bleed
           background image, accent-gradient fallback, dark overlay, and a
           centered title block. */}
@@ -127,37 +138,56 @@ export default async function BlogPostPage({
         </div>
       </section>
 
-      <div className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-        <article className="prose">
-          <MDXRemote
-            source={post.content}
-            components={mdxComponents}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [remarkGfm],
-                rehypePlugins: [
-                  rehypeSlug,
-                  [rehypePrettyCode, prettyCodeOptions],
-                  [rehypeAutolinkHeadings, { behavior: 'wrap' }]
-                ]
-              }
-            }}
-          />
-        </article>
+      {/* When the post has a ToC, widen the container and lay the reading column
+          and sticky sidebar out in a grid (desktop only). Short posts keep the
+          original centered single column exactly as before. */}
+      <div
+        className={`mx-auto w-full px-4 py-16 sm:px-6 lg:px-8 ${
+          hasToc ? 'max-w-6xl' : 'max-w-3xl'
+        }`}
+      >
+        <div className={hasToc ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-12' : ''}>
+          <div className={hasToc ? 'mx-auto w-full min-w-0 max-w-3xl' : ''}>
+            <article className="prose">
+              <MDXRemote
+                source={post.content}
+                components={mdxComponents}
+                options={{
+                  mdxOptions: {
+                    remarkPlugins: [remarkGfm],
+                    rehypePlugins: [
+                      rehypeSlug,
+                      [rehypePrettyCode, prettyCodeOptions],
+                      [rehypeAutolinkHeadings, { behavior: 'wrap' }]
+                    ]
+                  }
+                }}
+              />
+            </article>
 
-        <SeriesNav prev={prev} next={next} />
+            <SeriesNav prev={prev} next={next} />
 
-        {/* Comments — Giscus (GitHub Discussions). Lazy-loaded below the fold so
-            it doesn't affect LCP. mapping="pathname" gives each post its own
-            thread. Hidden entirely until Giscus is configured (lib/giscus.ts). */}
-        {isGiscusConfigured() && (
-          <section className="mt-16 border-t border-[var(--color-border)] pt-10">
-            <h2 className="mb-6 text-2xl font-semibold text-[var(--color-text-primary)]">
-              Comments
-            </h2>
-            <Comments mapping="pathname" />
-          </section>
-        )}
+            {/* Comments — Giscus (GitHub Discussions). Lazy-loaded below the fold
+                so it doesn't affect LCP. mapping="pathname" gives each post its
+                own thread. Hidden entirely until Giscus is configured. */}
+            {isGiscusConfigured() && (
+              <section className="mt-16 border-t border-[var(--color-border)] pt-10">
+                <h2 className="mb-6 text-2xl font-semibold text-[var(--color-text-primary)]">
+                  Comments
+                </h2>
+                <Comments mapping="pathname" />
+              </section>
+            )}
+          </div>
+
+          {/* Sticky table of contents — desktop only, right of the reading
+              column. Only rendered for posts with 3+ headings. */}
+          {hasToc && (
+            <aside className="hidden lg:block">
+              <TableOfContents items={toc} />
+            </aside>
+          )}
+        </div>
       </div>
     </main>
   )
