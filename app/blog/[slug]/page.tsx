@@ -11,6 +11,7 @@ import { pageMetadata } from '@/lib/metadata'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
 import { SeriesNav } from '@/components/blog/SeriesNav'
 import { SeriesBadge } from '@/components/blog/SeriesBadge'
+import { assetExists } from '@/lib/assets'
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }))
@@ -57,54 +58,93 @@ export default async function BlogPostPage({
 
   const { prev, next } = getSeriesNeighbors(post)
 
+  // Per-post hero image, resolved by convention (same pattern as project
+  // covers): drop a file at public/assets/blog/<slug>.jpg and it's picked up
+  // automatically. Until it exists, the hero shows the accent-gradient
+  // placeholder — no MDX/frontmatter change needed to add one later.
+  const heroAsset = `/assets/blog/${post.slug}.jpg`
+  const heroImage = assetExists(heroAsset) ? heroAsset : null
+
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-      <header className="mb-8">
-        <div className="mb-4 flex items-center justify-between font-mono text-xs tracking-[0.02em] text-[var(--color-text-muted)]">
-          <time dateTime={post.date}>{formatDate(post.date)}</time>
-          <span>{post.readingTime} min read</span>
-        </div>
-
-        <h1 className="text-[clamp(1.875rem,4vw,2.5rem)] font-semibold leading-tight text-[var(--color-text-primary)]">
-          {post.title}
-        </h1>
-
-        {post.series && (
-          <div className="mt-3">
-            <SeriesBadge series={post.series} part={post.part} />
-          </div>
-        )}
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          {post.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-sm bg-[var(--color-bg-hover)] px-2 py-0.5 font-mono text-xs tracking-[0.02em] text-[var(--color-text-on-hover)]"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </header>
-
-      <article className="prose">
-        <MDXRemote
-          source={post.content}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm],
-              rehypePlugins: [
-                rehypeSlug,
-                [rehypePrettyCode, prettyCodeOptions],
-                [rehypeAutolinkHeadings, { behavior: 'wrap' }]
-              ]
-            }
-          }}
+    <main className="w-full">
+      {/* Hero — same treatment/dimensions as the home page hero: full-bleed
+          background image, accent-gradient fallback, dark overlay, and a
+          centered title block. */}
+      <section className="relative overflow-hidden border-b border-[var(--color-border)]">
+        {/* Fallback accent gradient — the placeholder until a hero.jpg exists. */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-20"
+          style={{ background: 'var(--gradient-hero)' }}
+          aria-hidden="true"
         />
-      </article>
+        {/* Full-bleed background image, cover-cropped (preserves aspect ratio). */}
+        {heroImage && (
+          <div
+            className="pointer-events-none absolute inset-0 -z-10 bg-[var(--color-bg)] bg-cover bg-center"
+            style={{ backgroundImage: `url('${heroImage}')` }}
+            aria-hidden="true"
+          />
+        )}
+        {/* Dark overlay between image and text for contrast. */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{ background: 'var(--gradient-hero-overlay)' }}
+          aria-hidden="true"
+        />
+        <div className="mx-auto flex w-full max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 sm:py-28 lg:px-8">
+          <div className="animate-fade-up flex flex-col items-center">
+            {post.series && (
+              <div className="mb-4">
+                <SeriesBadge series={post.series} part={post.part} />
+              </div>
+            )}
 
-      <SeriesNav prev={prev} next={next} />
+            <h1 className="text-[clamp(1.875rem,4vw,2.75rem)] font-semibold leading-tight text-[var(--color-text-primary)]">
+              {post.title}
+            </h1>
+
+            <div className="mt-4 flex items-center gap-2 font-mono text-xs tracking-[0.02em] text-[var(--color-text-secondary)]">
+              <time dateTime={post.date}>{formatDate(post.date)}</time>
+              <span aria-hidden="true">·</span>
+              <span>{post.readingTime} min read</span>
+            </div>
+
+            {post.tags.length > 0 && (
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-sm bg-[var(--color-bg-hover)] px-2 py-0.5 font-mono text-xs tracking-[0.02em] text-[var(--color-text-on-hover)]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <div className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+        <article className="prose">
+          <MDXRemote
+            source={post.content}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+                rehypePlugins: [
+                  rehypeSlug,
+                  [rehypePrettyCode, prettyCodeOptions],
+                  [rehypeAutolinkHeadings, { behavior: 'wrap' }]
+                ]
+              }
+            }}
+          />
+        </article>
+
+        <SeriesNav prev={prev} next={next} />
+      </div>
     </main>
   )
 }
