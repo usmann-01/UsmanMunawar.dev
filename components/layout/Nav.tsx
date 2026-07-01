@@ -49,6 +49,7 @@ export function Nav() {
   }, [open])
 
   return (
+    <>
     <header className="sticky top-0 z-50 backdrop-blur-sm">
       {/* Legibility-only fade — no solid fill, no border. */}
       <div
@@ -118,38 +119,60 @@ export function Nav() {
         </button>
       </nav>
 
-      {/* Mobile menu — below md only. Anchored directly under the header via
-          top-full (no magic height), a solid bg-elevated panel so page content
-          doesn't show through; links stacked with large tap targets. */}
-      {open && (
-        <div
-          id="mobile-menu"
-          className="absolute inset-x-0 top-full z-40 border-y border-[var(--color-border)] bg-[var(--color-bg-elevated)] shadow-lg md:hidden"
-        >
-          <ul className="mx-auto flex max-w-6xl flex-col px-4 py-2 sm:px-6">
-            {links.map(({ href, label }) => {
-              const active = isActive(pathname, href)
-              return (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    aria-current={active ? 'page' : undefined}
-                    onClick={() => setOpen(false)}
+      {/* Mobile menu — below md only. Glassmorphism panel anchored under the
+          header via top-full (no magic height). Always rendered so it can
+          animate open AND close; data-open drives the transition, and when
+          closed it's visibility:hidden so backdrop-filter isn't painted. */}
+      <div
+        id="mobile-menu"
+        data-open={open}
+        inert={!open || undefined}
+        className="mobile-nav-panel absolute inset-x-0 top-full z-50 md:hidden"
+      >
+        <ul className="mx-auto flex max-w-6xl flex-col px-4 py-2 sm:px-6">
+          {links.map(({ href, label }) => {
+            const active = isActive(pathname, href)
+            return (
+              <li key={href}>
+                <Link
+                  href={href}
+                  aria-current={active ? 'page' : undefined}
+                  onClick={() => setOpen(false)}
+                  className={
+                    'group relative block border-b border-[var(--color-border)] py-4 text-lg transition-colors duration-150 ease-out ' +
+                    (active
+                      ? 'text-[var(--color-accent)]'
+                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] focus-visible:text-[var(--color-accent)]')
+                  }
+                >
+                  {label}
+                  {/* Left-to-right accent-bar reveal — shown on the active link,
+                      and revealed on hover / tap (:active) / keyboard focus. */}
+                  <span
+                    aria-hidden="true"
                     className={
-                      'block border-b border-[var(--color-border)] py-4 text-base transition-colors duration-[120ms] ease-out ' +
+                      'pointer-events-none absolute inset-x-0 -bottom-px h-0.5 origin-left bg-[var(--color-accent)] transition-transform duration-200 ease-out ' +
                       (active
-                        ? 'text-[var(--color-accent)]'
-                        : 'text-[var(--color-text-secondary)] hover:text-[var(--color-accent)]')
+                        ? 'scale-x-100'
+                        : 'scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100 group-active:scale-x-100')
                     }
-                  >
-                    {label}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      )}
+                  />
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
     </header>
+
+    {/* Scrim behind the mobile menu — a sibling of the header (not inside its
+        backdrop-blur, which would trap a fixed child). Tap to close. */}
+    <div
+      className="mobile-nav-backdrop fixed inset-0 z-40 md:hidden"
+      data-open={open}
+      aria-hidden="true"
+      onClick={() => setOpen(false)}
+    />
+    </>
   )
 }
