@@ -4,6 +4,7 @@ import { getAllPosts } from '@/lib/posts'
 import { getAllProjects } from '@/lib/projects'
 import { PostCard } from '@/components/blog/PostCard'
 import { ProjectCard } from '@/components/projects/ProjectCard'
+import { GitHubActivity } from '@/components/home/GitHubActivity'
 import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder'
 import { assetExists } from '@/lib/assets'
 import {
@@ -136,6 +137,10 @@ export default function Home() {
             </div>
           )}
         </section>
+
+        {/* Live GitHub public activity — server-fetched at build/revalidate time
+            (lib/github.ts). Renders nothing if the API is unreachable/rate-limited. */}
+        <GitHubActivity username="usmann-01" />
 
         {/* CR-005 — About folded into the home page as a section (no separate page). */}
         <section id="about" className="mb-20 scroll-mt-24">
