@@ -80,8 +80,8 @@ export default function Home() {
         />
         <div className="mx-auto w-full max-w-5xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
           <div className="animate-fade-up max-w-3xl">
-            <p className="eyebrow mb-5 text-sm">
-              <span className="caret">usman ❯</span> whoami
+            <p className="mb-5 font-mono text-sm tracking-[0.02em] text-[var(--color-accent)]">
+              Hi, I&apos;m
             </p>
             <h1 className="text-display text-[var(--color-text-primary)]">Usman Munawar</h1>
             {/* Signature accent hairline — the one bright stroke in the hero. */}
