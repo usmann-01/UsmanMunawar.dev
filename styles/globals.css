@@ -60,6 +60,15 @@
     radial-gradient(50% 60% at 100% 0%, rgba(59, 63, 140, 0.22), transparent 55%);
   --gradient-accent: linear-gradient(135deg, #7c9eff 0%, #a78bfa 100%);
   --glow-accent: 0 0 0 1px rgba(124, 158, 255, 0.35), 0 8px 30px -8px rgba(124, 158, 255, 0.35);
+
+  /* Dark overlay for text legibility over the hero background image. Uses only
+     the existing --color-bg (just varied alpha) so no new palette is added. */
+  --gradient-hero-overlay: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-bg) 72%, transparent),
+    color-mix(in srgb, var(--color-bg) 55%, transparent) 45%,
+    color-mix(in srgb, var(--color-bg) 88%, transparent)
+  );
 }
 
 @layer base {

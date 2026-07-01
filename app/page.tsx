@@ -48,15 +48,29 @@ export default function Home() {
 
   return (
     <main className="w-full">
-      {/* CR-003 / CR-004 — Hero: name, tagline, CTA, and a bg image placeholder. */}
+      {/* CR-003 / CR-004 — Hero: full-bleed hero.jpg background, dark overlay for
+          legibility, and a centered name/tagline/CTA block. */}
       <section className="relative overflow-hidden border-b border-[var(--color-border)]">
+        {/* Fallback accent gradient — shows through if hero.jpg is missing. */}
         <div
-          className="pointer-events-none absolute inset-0 -z-10"
+          className="pointer-events-none absolute inset-0 -z-20"
           style={{ background: 'var(--gradient-hero)' }}
           aria-hidden="true"
         />
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-2 lg:px-8">
-          <div className="animate-fade-up">
+        {/* Full-bleed background image, cover-cropped (preserves aspect ratio). */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 bg-[var(--color-bg)] bg-cover bg-center"
+          style={{ backgroundImage: "url('/assets/hero.jpg')" }}
+          aria-hidden="true"
+        />
+        {/* Dark overlay between image and text for contrast. */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{ background: 'var(--gradient-hero-overlay)' }}
+          aria-hidden="true"
+        />
+        <div className="mx-auto flex w-full max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 sm:py-28 lg:px-8">
+          <div className="animate-fade-up flex flex-col items-center">
             <p className="mb-4 font-mono text-sm tracking-[0.02em] text-[var(--color-accent)]">
               Hi, I&apos;m
             </p>
@@ -66,7 +80,7 @@ export default function Home() {
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-[var(--color-text-secondary)]">
               {heroTagline}
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
                 href="/projects"
                 className="rounded-md bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-[var(--color-bg)] transition-all duration-[120ms] ease-out hover:opacity-90 hover:shadow-[var(--glow-accent)]"
@@ -81,11 +95,6 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <ImagePlaceholder
-            asset="/assets/hero.jpg"
-            label="Hero portrait / background"
-            className="aspect-[4/3] w-full animate-fade-up lg:aspect-square"
-          />
         </div>
       </section>
 
