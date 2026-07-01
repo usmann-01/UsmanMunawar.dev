@@ -55,6 +55,13 @@
   /* Prose */
   --prose-max-width: 68ch;
 
+  /* Glass — single source of truth for the site's glassmorphism, derived from
+     the nav header: blur radius + the top-down bg tint. Used by .glass-surface
+     (see below) so the header, mobile menu, and any future overlay all share
+     one definition. Blur matches Tailwind's backdrop-blur-sm (8px). */
+  --glass-blur: 8px;
+  --glass-tint: color-mix(in srgb, var(--color-bg) 70%, transparent);
+
   /* CR-004 — Visual richness. Gradients and glows layered on the existing
      token palette so the dark theme gains depth without new base colors. */
   --gradient-hero:
@@ -291,6 +298,21 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Glass — the site-wide glassmorphism surface (single source of truth).
+ * ------------------------------------------------------------------ */
+
+/* The nav header's treatment, extracted so every glass surface references the
+   same values: a backdrop blur + a top-down bg tint that fades to transparent.
+   Only meaningful on surfaces that overlap scrollable content behind them
+   (nav, mobile menu, overlays) — an in-flow surface over the solid page bg has
+   nothing to blur, so glass there is invisible and only costs GPU. */
+.glass-surface {
+  background: linear-gradient(to bottom, var(--glass-tint), transparent);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+/* ------------------------------------------------------------------ *
  * Mobile nav — glassmorphism menu (mobile only; desktop nav untouched).
  * ------------------------------------------------------------------ */
 
@@ -300,11 +322,9 @@
    hero's blue glow. Animates open AND close via opacity/transform; visibility
    is transitioned too, so when fully closed the panel is not painted and the
    (GPU-costly) backdrop-filter is inactive. */
-/* Only the open/close animation lives here. The glass itself is applied on the
-   element with the SAME classes the header uses (backdrop-blur-sm + a
-   from-bg/70 to-transparent gradient fade), so the panel is the exact same
-   material as the header — no border, no glow, no heavy fill. Transitioning
-   visibility means the panel isn't painted when closed, so backdrop-filter
+/* Only the open/close animation lives here; the glass comes from the shared
+   .glass-surface class (identical to the header by construction). Transitioning
+   visibility means the panel isn't painted when closed, so its backdrop-filter
    stays inactive (no idle GPU cost). */
 .mobile-nav-panel {
   opacity: 0;

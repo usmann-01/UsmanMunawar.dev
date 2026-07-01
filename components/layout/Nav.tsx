@@ -50,12 +50,7 @@ export function Nav() {
 
   return (
     <>
-    <header className="sticky top-0 z-50 backdrop-blur-sm">
-      {/* Legibility-only fade — no solid fill, no border. */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-[var(--color-bg)]/70 to-transparent"
-        aria-hidden="true"
-      />
+    <header className="glass-surface sticky top-0 z-50">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link
           href="/"
@@ -127,13 +122,8 @@ export function Nav() {
         id="mobile-menu"
         data-open={open}
         inert={!open || undefined}
-        className="mobile-nav-panel absolute inset-x-0 top-full z-50 backdrop-blur-sm md:hidden"
+        className="mobile-nav-panel glass-surface absolute inset-x-0 top-full z-50 md:hidden"
       >
-        {/* Exact same tint as the header — a top-down fade, no solid fill. */}
-        <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-[var(--color-bg)]/70 to-transparent"
-          aria-hidden="true"
-        />
         <ul className="mx-auto flex max-w-6xl flex-col px-4 py-2 sm:px-6">
           {links.map(({ href, label }) => {
             const active = isActive(pathname, href)
