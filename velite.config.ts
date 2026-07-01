@@ -32,6 +32,9 @@ const projects = defineCollection({
       title: s.string().max(100),
       summary: s.string().max(200),
       status: s.enum(['in-progress', 'complete', 'planned']),
+      // CR-002: a generic, configurable project taxonomy. "Systems software" is
+      // now one category among many rather than the whole site's identity.
+      category: s.string(),
       tags: s.array(s.string()),
       seriesId: s.string().optional(),
       githubUrl: s.string().url().optional(),

@@ -3,8 +3,10 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+// CR-005: About is no longer a standalone route — it's a section on the home
+// page, so the nav points at the /#about anchor instead.
 const links = [
-  { href: '/about', label: 'About' },
+  { href: '/#about', label: 'About' },
   { href: '/projects', label: 'Projects' },
   { href: '/blog', label: 'Blog' },
   { href: '/skills', label: 'Skills' },
@@ -18,7 +20,7 @@ export function Nav() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
-      <nav className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link
           href="/"
           className="font-mono text-sm font-semibold text-[var(--color-text-primary)] transition-colors duration-[120ms] ease-out hover:text-[var(--color-accent)]"

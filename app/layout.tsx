@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const homeTitle = `${siteName} — Systems Developer`;
+const homeTitle = `${siteName} — Developer & Builder`;
 
 // Site-wide OG/Twitter defaults (Section 12). Next.js shallowly replaces the
 // whole openGraph/twitter object per route segment, so every page that needs

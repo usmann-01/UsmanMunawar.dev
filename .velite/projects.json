@@ -1,8 +1,30 @@
 [
   {
+    "title": "Markdown Reader",
+    "summary": "A fast, distraction-free desktop app for reading and previewing Markdown files.",
+    "status": "complete",
+    "category": "Desktop Apps",
+    "tags": [
+      "TypeScript",
+      "Electron",
+      "desktop"
+    ],
+    "githubUrl": "https://github.com/usmann-01/md-reader",
+    "startDate": "2026-02-01T00:00:00.000Z",
+    "endDate": "2026-04-15T00:00:00.000Z",
+    "highlights": [
+      "Instant live preview with synced scrolling between source and rendered view",
+      "Keyboard-first navigation and a command palette for zero-mouse reading",
+      "Handles large documents without lag by rendering only the visible viewport"
+    ],
+    "slug": "md-reader",
+    "content": "## The problem\n\nI read a lot of Markdown — notes, docs, READMEs — and wanted a native, snappy\nreader that stayed out of the way instead of a heavyweight editor.\n\n## The approach\n\nA small desktop shell wraps a rendering pipeline that streams the parsed document\ninto a virtualized view, so only what's on screen is laid out. Scroll position is\nkept in sync between the raw source and the rendered output.\n\n## Where it stands\n\nComplete and in daily use. It's the kind of tool I built for myself first and\nthen cleaned up enough to share."
+  },
+  {
     "title": "Mini DBMS",
     "summary": "A from-scratch storage engine: slotted pages, a B+ tree index, and write-ahead logging.",
     "status": "in-progress",
+    "category": "Systems",
     "tags": [
       "C",
       "storage engine",
@@ -23,6 +45,7 @@
     "title": "RAFT + Key-Value Store",
     "summary": "A replicated key-value store built on a hand-rolled Raft consensus implementation.",
     "status": "planned",
+    "category": "Distributed Systems",
     "tags": [
       "Go",
       "consensus",
@@ -37,5 +60,26 @@
     ],
     "slug": "raft-kv",
     "content": "## The problem\r\n\r\nDistributed consensus is the part of systems work I understand least by reading and\r\nmost by building. Raft is designed to be understandable, which makes it the right\r\nplace to start.\r\n\r\n## The approach\r\n\r\nThe plan is to implement Raft in stages — leader election first, then log\r\nreplication, then snapshotting — and only then layer a key-value store on top so the\r\nconsensus core stays testable in isolation.\r\n\r\n## Where it stands\r\n\r\nPlanned. Design notes and the build series will land before the first commit."
+  },
+  {
+    "title": "Sim Racing Telemetry Tool",
+    "summary": "A live telemetry overlay that reads sim racing data and coaches you with real-time tips.",
+    "status": "in-progress",
+    "category": "Tools",
+    "tags": [
+      "Python",
+      "telemetry",
+      "real-time",
+      "data viz"
+    ],
+    "githubUrl": "https://github.com/usmann-01/sim-racing-telemetry",
+    "startDate": "2026-03-15T00:00:00.000Z",
+    "highlights": [
+      "Parses the game's live telemetry stream over UDP at 60 Hz without dropping frames",
+      "Real-time coaching tips: braking points, throttle trace, and cornering lines",
+      "Lap comparison overlay so you can see exactly where a faster lap gained time"
+    ],
+    "slug": "sim-racing-telemetry",
+    "content": "## The problem\n\nSim racing produces a firehose of telemetry, but the raw numbers don't tell you\n*how* to go faster. I wanted something that turned the live stream into actionable\ncoaching while I'm still on track.\n\n## The approach\n\nThe tool listens to the game's telemetry feed, buffers laps, and compares your\ncurrent lap against your best. A lightweight overlay surfaces the few tips that\nactually matter in the moment — brake later here, get on throttle earlier there.\n\n## Where it stands\n\nIn progress. Live parsing and the throttle/brake traces work; the coaching\nheuristics and lap-delta overlay are being tuned against real driving data."
   }
 ]

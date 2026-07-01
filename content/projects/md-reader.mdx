@@ -1,0 +1,30 @@
+---
+title: "Markdown Reader"
+summary: "A fast, distraction-free desktop app for reading and previewing Markdown files."
+status: "complete"
+category: "Desktop Apps"
+tags: ["TypeScript", "Electron", "desktop"]
+githubUrl: "https://github.com/usmann-01/md-reader"
+startDate: "2026-02-01"
+endDate: "2026-04-15"
+highlights:
+  - "Instant live preview with synced scrolling between source and rendered view"
+  - "Keyboard-first navigation and a command palette for zero-mouse reading"
+  - "Handles large documents without lag by rendering only the visible viewport"
+---
+
+## The problem
+
+I read a lot of Markdown — notes, docs, READMEs — and wanted a native, snappy
+reader that stayed out of the way instead of a heavyweight editor.
+
+## The approach
+
+A small desktop shell wraps a rendering pipeline that streams the parsed document
+into a virtualized view, so only what's on screen is laid out. Scroll position is
+kept in sync between the raw source and the rendered output.
+
+## Where it stands
+
+Complete and in daily use. It's the kind of tool I built for myself first and
+then cleaned up enough to share.

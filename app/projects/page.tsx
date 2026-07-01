@@ -1,41 +1,44 @@
 import type { Metadata } from 'next'
-import { getAllProjects } from '@/lib/projects'
-import { ProjectCard } from '@/components/projects/ProjectCard'
+import { getAllProjects, getCategories } from '@/lib/projects'
+import { ProjectsExplorer } from '@/components/projects/ProjectsExplorer'
 import { pageMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Projects',
-  description: "Projects I've built from scratch.",
+  description: 'Things I’ve built from scratch — desktop apps, tools, and systems software.',
   path: '/projects'
 })
 
 export default function ProjectsIndexPage() {
   const projects = getAllProjects()
+  const categories = getCategories()
+
+  // Strip raw MDX content before handing off to the client explorer.
+  const explorerProjects = projects.map(({ slug, title, summary, status, category, tags }) => ({
+    slug,
+    title,
+    summary,
+    status,
+    category,
+    tags
+  }))
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-16">
-      <h1 className="mb-2 text-[clamp(1.875rem,4vw,2.5rem)] font-semibold text-[var(--color-text-primary)]">
-        Projects
-      </h1>
-      <p className="mb-8 text-[var(--color-text-secondary)]">
-        Projects I&apos;ve built from scratch.
-      </p>
+    <main className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <header className="mb-10 max-w-2xl animate-fade-up">
+        <h1 className="mb-3 text-[clamp(1.875rem,4vw,2.5rem)] font-semibold text-[var(--color-text-primary)]">
+          Projects
+        </h1>
+        <p className="text-lg text-[var(--color-text-secondary)]">
+          A cross-section of what I build — from desktop apps and tools to systems software.
+          Filter by category to explore.
+        </p>
+      </header>
 
       {projects.length === 0 ? (
         <p className="text-[var(--color-text-muted)]">No projects yet. Check back soon.</p>
       ) : (
-        <div className="flex flex-col gap-4">
-          {projects.map((project) => (
-            <ProjectCard
-              key={project.slug}
-              slug={project.slug}
-              title={project.title}
-              summary={project.summary}
-              status={project.status}
-              tags={project.tags}
-            />
-          ))}
-        </div>
+        <ProjectsExplorer projects={explorerProjects} categories={categories} />
       )}
     </main>
   )

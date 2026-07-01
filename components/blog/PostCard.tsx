@@ -17,13 +17,15 @@ export function PostCard({ title, date, summary, tags, series, slug, readingTime
   return (
     <Link
       href={`/blog/${slug}`}
-      className="block rounded-md border border-[var(--color-border)] bg-[var(--color-bg-subtle)] p-4 transition-colors duration-[120ms] ease-out hover:bg-[var(--color-bg-hover)]"
+      className="card-glow group block rounded-md border border-[var(--color-border)] bg-[var(--color-bg-subtle)] p-4 hover:bg-[var(--color-bg-hover)]"
     >
       <div className="mb-2 flex items-center justify-between font-mono text-xs tracking-[0.02em] text-[var(--color-text-muted)]">
         <span>{formatDate(date)}</span>
         <span>{readingTime} min read</span>
       </div>
-      <h2 className="mb-1 text-lg font-semibold text-[var(--color-text-primary)]">{title}</h2>
+      <h2 className="mb-1 text-lg font-semibold text-[var(--color-text-primary)] transition-colors duration-[120ms] group-hover:text-[var(--color-accent)]">
+        {title}
+      </h2>
       <p className="mb-3 text-sm text-[var(--color-text-secondary)]">{summary}</p>
       <div className="flex flex-wrap gap-2">
         {series && (
