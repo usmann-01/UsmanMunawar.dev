@@ -380,6 +380,20 @@
     drop-shadow(0 2px 6px rgba(124, 158, 255, 0.3));
 }
 
+/* Eyebrow line above the hero name — brightest at its center, fading
+   toward the edges, with a soft glow to match. */
+.text-eyebrow-glow {
+  background: radial-gradient(
+    ellipse 70% 100% at center,
+    #b9caff 0%,
+    var(--color-accent) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 10px rgba(124, 158, 255, 0.45));
+}
+
 /* ------------------------------------------------------------------ *
  * Display type scale (design pass, Phase 2 — hierarchy).
  * The two loudest steps in the system. Mono face + weight come from the
