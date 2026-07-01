@@ -13,21 +13,28 @@ const links = [
   { href: '/contact', label: 'Contact' }
 ]
 
-// Sticky top, bg-elevated, 1px border bottom only. Active link: 2px accent
-// underline with 2px offset (Section 8, "Nav").
+// Panel-less, transparent header: logo left, plain text links right, sitting
+// directly on the page background. A subtle backdrop-blur + top-down gradient
+// fade (not a solid panel) keeps the links legible over content that scrolls
+// underneath — including the hero image.
 export function Nav() {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 backdrop-blur-sm">
+      {/* Legibility-only fade — no solid fill, no border. */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-[var(--color-bg)]/70 to-transparent"
+        aria-hidden="true"
+      />
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link
           href="/"
           className="font-mono text-sm font-semibold text-[var(--color-text-primary)] transition-colors duration-[120ms] ease-out hover:text-[var(--color-accent)]"
         >
-          usman munawar
+          Usman Munawar
         </Link>
-        <ul className="flex items-center gap-4 text-sm sm:gap-6">
+        <ul className="flex items-center gap-5 text-sm sm:gap-8">
           {links.map(({ href, label }) => {
             const active = pathname === href || pathname.startsWith(`${href}/`)
             return (
@@ -38,11 +45,13 @@ export function Nav() {
                   className={
                     // Hit-area padding offset by equal negative margins, so the
                     // 36px+ clickable box (NFR-07 / target-size) doesn't shift
-                    // the visible nav rhythm or gap-4/gap-6 spacing at all.
-                    'inline-flex items-center px-1.5 py-2.5 -mx-1.5 -my-2.5 underline-offset-[2px] transition-colors duration-[120ms] ease-out ' +
+                    // the visible nav rhythm or gap spacing at all. No box,
+                    // border, or default underline — plain text with an accent
+                    // hover / active color shift.
+                    'inline-flex items-center px-1.5 py-2.5 -mx-1.5 -my-2.5 transition-colors duration-[120ms] ease-out ' +
                     (active
-                      ? 'text-[var(--color-text-primary)] underline decoration-[var(--color-accent)] decoration-2'
-                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]')
+                      ? 'text-[var(--color-accent)]'
+                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-accent)]')
                   }
                 >
                   {label}
