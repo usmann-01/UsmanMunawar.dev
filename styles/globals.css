@@ -300,17 +300,13 @@
    hero's blue glow. Animates open AND close via opacity/transform; visibility
    is transitioned too, so when fully closed the panel is not painted and the
    (GPU-costly) backdrop-filter is inactive. */
+/* Only the open/close animation lives here. The glass itself is applied on the
+   element with the SAME classes the header uses (backdrop-blur-sm + a
+   from-bg/70 to-transparent gradient fade), so the panel is the exact same
+   material as the header — no border, no glow, no heavy fill. Transitioning
+   visibility means the panel isn't painted when closed, so backdrop-filter
+   stays inactive (no idle GPU cost). */
 .mobile-nav-panel {
-  /* Glass matched exactly to the header: same blur(8px) (backdrop-blur-sm) and
-     the same --color-bg tint density (~70%), so the two glass surfaces read as
-     one material. The accent border + glow below are the panel's own lit edge. */
-  background: color-mix(in srgb, var(--color-bg) 72%, transparent);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  border: 1px solid color-mix(in srgb, var(--color-accent) 18%, transparent);
-  box-shadow:
-    0 18px 50px -12px color-mix(in srgb, var(--color-accent) 22%, transparent),
-    0 10px 30px -10px rgba(0, 0, 0, 0.55);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
@@ -325,9 +321,11 @@
   transform: translateY(0);
 }
 
-/* Dark scrim behind the panel; tap to close. Fades with the panel. */
+/* Light scrim behind the panel; tap to close. Kept subtle so it doesn't darken
+   the content seen through the panel's glass (which would make it read heavier
+   than the header). Fades with the panel. */
 .mobile-nav-backdrop {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   opacity: 0;
   visibility: hidden;
   transition:

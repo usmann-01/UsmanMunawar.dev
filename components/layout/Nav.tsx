@@ -127,8 +127,13 @@ export function Nav() {
         id="mobile-menu"
         data-open={open}
         inert={!open || undefined}
-        className="mobile-nav-panel absolute inset-x-0 top-full z-50 md:hidden"
+        className="mobile-nav-panel absolute inset-x-0 top-full z-50 backdrop-blur-sm md:hidden"
       >
+        {/* Exact same tint as the header — a top-down fade, no solid fill. */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-[var(--color-bg)]/70 to-transparent"
+          aria-hidden="true"
+        />
         <ul className="mx-auto flex max-w-6xl flex-col px-4 py-2 sm:px-6">
           {links.map(({ href, label }) => {
             const active = isActive(pathname, href)
